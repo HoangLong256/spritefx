@@ -1,0 +1,121 @@
+{
+ "name": "default",
+ "transparent": true,
+ "outline": "#1a1220",
+ "ramps": {
+  "grey": {
+   "base": "#8f93a6"
+  },
+  "slate": {
+   "base": "#6b8399"
+  },
+  "brown": {
+   "base": "#94633e"
+  },
+  "red": {
+   "base": "#b23a3e"
+  },
+  "gold": {
+   "base": "#c89c2c"
+  },
+  "ice": {
+   "base": "#7fd6f0",
+   "kind": "emissive",
+   "steps": 5,
+   "hue_shift": 0.3
+  },
+  "green": {
+   "base": "#52b04a"
+  },
+  "skin": {
+   "base": "#c88464"
+  },
+  "accent": {
+   "base": "#e84a3a"
+  },
+  "olive": {
+   "base": "#75873a"
+  },
+  "wool": {
+   "base": "#d8d0bc"
+  },
+  "pink": {
+   "base": "#e08c94"
+  },
+  "charcoal": {
+   "base": "#48444f"
+  },
+  "earth": {
+   "base": "#8c7a4e"
+  },
+  "sand": {
+   "base": "#cbb68a"
+  },
+  "bark": {
+   "base": "#6a5432"
+  },
+  "navy": {
+   "base": "#3f6eae"
+  },
+  "ochre": {
+   "base": "#c48c42"
+  },
+  "canvas": {
+   "base": "#ddd8cc",
+   "hue_shift": 0.4
+  },
+  "stone": {
+   "base": "#8a877f",
+   "hue_shift": 0.4
+  },
+  "eiffel_low": {
+   "base": "#8b7660",
+   "hue_shift": 0.3
+  },
+  "eiffel_mid": {
+   "base": "#947f68",
+   "hue_shift": 0.3
+  },
+  "eiffel_high": {
+   "base": "#9e8871",
+   "hue_shift": 0.3
+  },
+  "fire": {
+   "base": "#f77622",
+   "kind": "emissive",
+   "steps": 5
+  },
+  "energy": {
+   "base": "#0095e9",
+   "kind": "emissive",
+   "steps": 5
+  },
+  "holy": {
+   "base": "#f2d36b",
+   "kind": "emissive",
+   "steps": 5,
+   "hue_shift": 0.4
+  },
+  "acid": {
+   "base": "#63c74d",
+   "kind": "emissive",
+   "steps": 5
+  },
+  "smoke": {
+   "base": "#5d6680",
+   "kind": "smoke",
+   "steps": 4
+  },
+  "electric": {
+   "base": "#9b6bff",
+   "kind": "emissive",
+   "steps": 5
+  },
+  "poison": {
+   "base": "#b44bd6",
+   "kind": "emissive",
+   "steps": 5,
+   "hue_shift": 0.5
+  }
+ }
+}

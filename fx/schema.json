@@ -1,0 +1,2406 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://spritefx/schema.json",
+  "title": "spritefx effect",
+  "description": "A pixel-art visual effect: phases on a tick clock, layers that each map a value field to a ramp. See docs/ARCHITECTURE.md.",
+  "type": "object",
+  "required": [
+    "name",
+    "type",
+    "phases",
+    "layers"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "type": {
+      "enum": [
+        "muzzle",
+        "hit",
+        "slash",
+        "bolt",
+        "explosion",
+        "puff",
+        "dust",
+        "poof",
+        "heal",
+        "buff",
+        "fire",
+        "aura",
+        "shield",
+        "portal",
+        "rain",
+        "snow",
+        "leaves",
+        "sparkle",
+        "shockwave",
+        "projectile",
+        "splash",
+        "other"
+      ]
+    },
+    "screen": {
+      "type": "boolean"
+    },
+    "linger": {
+      "type": "boolean"
+    },
+    "canvas": {
+      "anyOf": [
+        {
+          "const": "auto"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 1024
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      ]
+    },
+    "anchor": {
+      "anyOf": [
+        {
+          "enum": [
+            "center",
+            "bottom",
+            "origin"
+          ]
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      ]
+    },
+    "fps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 120
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "style": {
+      "enum": [
+        "smooth",
+        "classic"
+      ]
+    },
+    "loop": {
+      "type": "boolean"
+    },
+    "palette": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ramps": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/ramp"
+      }
+    },
+    "outline": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/phase"
+      }
+    },
+    "sections": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "loop": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "end": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/layer"
+      }
+    },
+    "order": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "outputs": {
+      "type": "object",
+      "properties": {
+        "add": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "emissive": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "indexed": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "ease": {
+      "type": "string",
+      "pattern": "^(linear|step|back|backin|backout|(in|out|inout)[0-9]*)$"
+    },
+    "keyed": {
+      "type": "object",
+      "properties": {
+        "keys": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "ease": {
+          "$ref": "#/$defs/ease"
+        }
+      },
+      "required": [
+        "keys"
+      ],
+      "additionalProperties": false
+    },
+    "range": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "param": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "$ref": "#/$defs/keyed"
+        },
+        {
+          "$ref": "#/$defs/range"
+        }
+      ]
+    },
+    "vec": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/param"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "sdf": {
+      "type": "object",
+      "required": [
+        "sdf"
+      ],
+      "properties": {
+        "sdf": {
+          "enum": [
+            "circle",
+            "ellipse",
+            "ripple",
+            "heart",
+            "ring",
+            "arc",
+            "crescent",
+            "moon",
+            "star",
+            "rays",
+            "polygon",
+            "capsule",
+            "beam"
+          ]
+        },
+        "taper": {
+          "$ref": "#/$defs/param"
+        },
+        "onion": {
+          "$ref": "#/$defs/param"
+        },
+        "at": {
+          "$ref": "#/$defs/vec"
+        },
+        "rotate": {
+          "$ref": "#/$defs/param"
+        },
+        "squash": {
+          "$ref": "#/$defs/param"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "circle"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "r": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "r"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "ellipse"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "rx": {
+                "$ref": "#/$defs/param"
+              },
+              "ry": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "rx",
+              "ry"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "ring"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "r": {
+                "$ref": "#/$defs/param"
+              },
+              "width": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "r",
+              "width"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "arc"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "r": {
+                "$ref": "#/$defs/param"
+              },
+              "width": {
+                "$ref": "#/$defs/param"
+              },
+              "from": {
+                "$ref": "#/$defs/param"
+              },
+              "to": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "r",
+              "width",
+              "from",
+              "to"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "crescent"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "r": {
+                "$ref": "#/$defs/param"
+              },
+              "width": {
+                "$ref": "#/$defs/param"
+              },
+              "from": {
+                "$ref": "#/$defs/param"
+              },
+              "to": {
+                "$ref": "#/$defs/param"
+              },
+              "peak": {
+                "$ref": "#/$defs/param"
+              },
+              "sharp": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "r",
+              "width",
+              "from",
+              "to"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "moon"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "r": {
+                "$ref": "#/$defs/param"
+              },
+              "cut": {
+                "$ref": "#/$defs/param"
+              },
+              "offset": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "r"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "star"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "points": {
+                "$ref": "#/$defs/param"
+              },
+              "r": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/param"
+                  },
+                  {
+                    "$ref": "#/$defs/vec"
+                  }
+                ]
+              },
+              "inner": {
+                "$ref": "#/$defs/param"
+              },
+              "rotate": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "points",
+              "r"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "rays"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "count": {
+                "$ref": "#/$defs/param"
+              },
+              "length": {
+                "$ref": "#/$defs/param"
+              },
+              "width": {
+                "$ref": "#/$defs/param"
+              },
+              "inner": {
+                "$ref": "#/$defs/param"
+              },
+              "rotate": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "count",
+              "length"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "polygon"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "points": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/vec"
+                },
+                "minItems": 3
+              }
+            },
+            "required": [
+              "points"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "capsule"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "from": {
+                "$ref": "#/$defs/vec"
+              },
+              "to": {
+                "$ref": "#/$defs/vec"
+              },
+              "r": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "r"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "beam"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "length": {
+                "$ref": "#/$defs/param"
+              },
+              "width": {
+                "$ref": "#/$defs/param"
+              },
+              "angle": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "length",
+              "width"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "ripple"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "rx": {
+                "$ref": "#/$defs/param"
+              },
+              "ry": {
+                "$ref": "#/$defs/param"
+              },
+              "near": {
+                "$ref": "#/$defs/param"
+              },
+              "far": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "rx",
+              "ry"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "sdf": {
+                "const": "heart"
+              }
+            },
+            "required": [
+              "sdf"
+            ]
+          },
+          "then": {
+            "properties": {
+              "r": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "r"
+            ]
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "ramp": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "colors": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "minItems": 2,
+              "maxItems": 12
+            }
+          },
+          "required": [
+            "colors"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "base": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "kind": {
+              "enum": [
+                "normal",
+                "emissive",
+                "smoke"
+              ]
+            },
+            "steps": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 8
+            },
+            "hue_shift": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 2
+            }
+          },
+          "required": [
+            "base"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "phase": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "ticks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "fast": {
+          "type": "boolean"
+        },
+        "hold": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "each": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*(:[^\\s]+)?$"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "ticks"
+      ],
+      "additionalProperties": false
+    },
+    "layer": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "kind": {
+          "enum": [
+            "shape",
+            "particles",
+            "field",
+            "trail",
+            "bolt",
+            "cycle",
+            "doom",
+            "smoke",
+            "stream",
+            "water"
+          ]
+        },
+        "during": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "ramp": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/param"
+        },
+        "blend": {
+          "enum": [
+            "over",
+            "add"
+          ]
+        },
+        "outline": {
+          "enum": [
+            "none",
+            "dark"
+          ]
+        },
+        "flicker": {
+          "type": "boolean"
+        },
+        "min_cluster": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "dither": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "mirror": {
+          "enum": [
+            "x",
+            "y",
+            "xy"
+          ]
+        },
+        "tag": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "role": {
+          "enum": [
+            "fire",
+            "smoke",
+            "flash",
+            "spark"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "shape"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "shape": {
+                "$ref": "#/$defs/sdf"
+              },
+              "at": {
+                "$ref": "#/$defs/vec"
+              },
+              "rotate": {
+                "$ref": "#/$defs/param"
+              },
+              "value_mode": {
+                "enum": [
+                  "flat",
+                  "radial",
+                  "depth",
+                  "sweep",
+                  "near"
+                ]
+              },
+              "edge": {
+                "$ref": "#/$defs/param"
+              },
+              "break_up": {
+                "type": "object",
+                "properties": {
+                  "after": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "noise": {
+                    "enum": [
+                      "angular",
+                      "worley"
+                    ]
+                  },
+                  "scale": {
+                    "type": "number",
+                    "minimum": 0.5,
+                    "maximum": 64
+                  },
+                  "amount": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "bias": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 4
+                  },
+                  "ease": {
+                    "$ref": "#/$defs/ease"
+                  }
+                },
+                "required": [
+                  "after"
+                ],
+                "additionalProperties": false
+              },
+              "tail": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "shape",
+              "ramp"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "particles"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "emit": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "enum": [
+                      "burst",
+                      "stream"
+                    ]
+                  },
+                  "count": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "rate": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "at_u": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "from": {
+                    "type": "object",
+                    "required": [
+                      "area"
+                    ],
+                    "properties": {
+                      "area": {
+                        "enum": [
+                          "point",
+                          "circle",
+                          "ring",
+                          "line",
+                          "rect"
+                        ]
+                      },
+                      "width": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 256
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "mode"
+                ],
+                "additionalProperties": false
+              },
+              "velocity": {
+                "type": "object",
+                "properties": {
+                  "speed": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "angle": {
+                    "anyOf": [
+                      {
+                        "$ref": "#/$defs/param"
+                      },
+                      {
+                        "const": "out"
+                      }
+                    ]
+                  },
+                  "spread": {
+                    "$ref": "#/$defs/param"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "gravity": {
+                "$ref": "#/$defs/param"
+              },
+              "drag": {
+                "$ref": "#/$defs/param"
+              },
+              "wind": {
+                "$ref": "#/$defs/xy"
+              },
+              "wiggle": {
+                "type": "object",
+                "properties": {
+                  "amp": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "freq": {
+                    "$ref": "#/$defs/param"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "ground": {
+                "type": "object",
+                "properties": {
+                  "y": {
+                    "type": "number"
+                  },
+                  "bounce": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                },
+                "required": [
+                  "y"
+                ],
+                "additionalProperties": false
+              },
+              "life": {
+                "$ref": "#/$defs/param"
+              },
+              "stamp": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "dot",
+                      "plus",
+                      "diamond",
+                      "disc",
+                      "star",
+                      "puff",
+                      "streak"
+                    ]
+                  },
+                  "size": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "r": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "erode": {
+                    "enum": [
+                      "none",
+                      "crescent",
+                      "dots"
+                    ]
+                  },
+                  "erode_angle": {
+                    "$ref": "#/$defs/param"
+                  }
+                },
+                "required": [
+                  "kind"
+                ],
+                "additionalProperties": false
+              },
+              "value_over_life": {
+                "$ref": "#/$defs/param"
+              },
+              "loop": {
+                "const": "analytic"
+              }
+            },
+            "required": [
+              "emit",
+              "ramp"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "field"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "noise": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "value",
+                      "perlin",
+                      "worley",
+                      "fbm"
+                    ]
+                  },
+                  "scale": {
+                    "type": "number",
+                    "minimum": 0.5,
+                    "maximum": 256
+                  },
+                  "octaves": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 8
+                  },
+                  "warp": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 8
+                  },
+                  "speed": {
+                    "type": "number",
+                    "minimum": -2,
+                    "maximum": 2
+                  },
+                  "loop_ticks": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "invert": {
+                    "type": "boolean"
+                  },
+                  "base": {
+                    "enum": [
+                      "value",
+                      "perlin",
+                      "worley"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ],
+                "additionalProperties": false
+              },
+              "polar": {
+                "type": "object",
+                "properties": {
+                  "swirl": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "rings": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "minimum": -1,
+                    "maximum": 1
+                  }
+                },
+                "additionalProperties": false
+              },
+              "mask": {
+                "$ref": "#/$defs/sdf"
+              },
+              "radial_falloff": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "threshold": {
+                "$ref": "#/$defs/param"
+              },
+              "flow": {
+                "anyOf": [
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "number",
+                    "minimum": -8,
+                    "maximum": 8
+                  }
+                ]
+              },
+              "falloff_from": {
+                "enum": [
+                  "center",
+                  "bottom"
+                ]
+              }
+            },
+            "required": [
+              "ramp"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "trail"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "of": {
+                "type": "string"
+              },
+              "length": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "value_decay": {
+                "$ref": "#/$defs/param"
+              },
+              "taper": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 32
+              },
+              "cutoff": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "max_depth": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 8
+              }
+            },
+            "required": [
+              "of"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "bolt"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "from": {
+                "$ref": "#/$defs/vec"
+              },
+              "to": {
+                "$ref": "#/$defs/vec"
+              },
+              "roughness": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 2
+              },
+              "generations": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 8
+              },
+              "branches": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "length": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "angle": {
+                    "$ref": "#/$defs/param"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "reseed": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "blank": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "width": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 8
+              },
+              "glow": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 8
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "ramp"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "cycle"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "field": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "kind": {
+                        "enum": [
+                          "value",
+                          "perlin",
+                          "worley",
+                          "fbm"
+                        ]
+                      },
+                      "scale": {
+                        "type": "number",
+                        "minimum": 0.5,
+                        "maximum": 256
+                      },
+                      "octaves": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 8
+                      },
+                      "warp": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 8
+                      },
+                      "speed": {
+                        "type": "number",
+                        "minimum": -2,
+                        "maximum": 2
+                      },
+                      "loop_ticks": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    },
+                    "required": [
+                      "kind"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "swirl": {
+                        "$ref": "#/$defs/param"
+                      },
+                      "rings": {
+                        "$ref": "#/$defs/param"
+                      },
+                      "speed": {
+                        "type": "number",
+                        "minimum": -1,
+                        "maximum": 1
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "noise": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "value",
+                              "perlin",
+                              "worley",
+                              "fbm"
+                            ]
+                          },
+                          "scale": {
+                            "type": "number",
+                            "minimum": 0.5,
+                            "maximum": 256
+                          },
+                          "octaves": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 8
+                          },
+                          "warp": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 8
+                          },
+                          "speed": {
+                            "type": "number",
+                            "minimum": -2,
+                            "maximum": 2
+                          },
+                          "loop_ticks": {
+                            "type": "integer",
+                            "minimum": 1
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "polar": {
+                        "type": "object",
+                        "properties": {
+                          "swirl": {
+                            "$ref": "#/$defs/param"
+                          },
+                          "rings": {
+                            "$ref": "#/$defs/param"
+                          },
+                          "speed": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "mask": {
+                "$ref": "#/$defs/sdf"
+              },
+              "speed": {
+                "type": "number",
+                "minimum": -16,
+                "maximum": 16
+              }
+            },
+            "required": [
+              "field",
+              "ramp"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "doom"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 2
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 2
+              },
+              "cell": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "at": {
+                "$ref": "#/$defs/xy"
+              },
+              "source": {
+                "$ref": "#/$defs/param"
+              },
+              "decay": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "wind": {
+                "type": "number",
+                "minimum": -1,
+                "maximum": 1
+              },
+              "preroll": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "loop": {
+                "const": "crossfade"
+              },
+              "crossfade": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "base": {
+                "enum": [
+                  "round",
+                  "flat"
+                ]
+              },
+              "threshold": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "width",
+              "height",
+              "ramp"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "smoke"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 3,
+                "description": "grid cells across (default 32)"
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 3,
+                "description": "grid cells tall (default 48)"
+              },
+              "cell": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "pixels per cell (default 1; 2 gives chunkier, blobbier smoke)"
+              },
+              "at": {
+                "$ref": "#/$defs/xy",
+                "description": "the grid's bottom-centre in effect space (default [0, 0])"
+              },
+              "boundary": {
+                "enum": [
+                  "free",
+                  "wall",
+                  "wrap"
+                ],
+                "description": "free (default: open, smoke leaves), wall (no flow through the edges), wrap (toroidal)"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "at": {
+                      "$ref": "#/$defs/vec",
+                      "description": "centre in effect px, each axis a parameter over layer u"
+                    },
+                    "r": {
+                      "$ref": "#/$defs/param",
+                      "description": "radius px (default 3)"
+                    },
+                    "density": {
+                      "$ref": "#/$defs/param",
+                      "description": "density added per tick at the centre (default 0.3); density is capped at 2, 1 maps to the ramp top"
+                    },
+                    "heat": {
+                      "$ref": "#/$defs/param",
+                      "description": "temperature added per tick (default = density): what buoyancy lifts"
+                    },
+                    "velocity": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/$defs/vec"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "speed": {
+                              "$ref": "#/$defs/param"
+                            },
+                            "angle": {
+                              "$ref": "#/$defs/param"
+                            }
+                          },
+                          "required": [
+                            "speed"
+                          ],
+                          "additionalProperties": false
+                        }
+                      ],
+                      "description": "px/tick the flow inside the disc is pulled to: [vx, vy] or {speed, angle (deg, 270 = up, default 270)}; absent = no push"
+                    },
+                    "during_u": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "description": "[u0, u1] of the layer's progress when the source emits (default [0, 1]); pre-roll ticks count as u = 0"
+                    },
+                    "pulse": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "description": "[period, on] ticks: emit only the first `on` ticks of every `period` (separate puffs); in a loop, period should divide the loop"
+                    },
+                    "phase": {
+                      "type": "integer",
+                      "description": "ticks to shift the pulse (default 0)"
+                    }
+                  },
+                  "required": [
+                    "at"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "impulse": {
+                "type": "object",
+                "properties": {
+                  "at": {
+                    "$ref": "#/$defs/xy",
+                    "description": "blast centre px"
+                  },
+                  "r": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "description": "blast radius px (default 4)"
+                  },
+                  "speed": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "outward px/tick at the radius (default 1)"
+                  },
+                  "ticks": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "ticks the expansion lasts, weakening linearly (default 4); starts at the layer's tick 0"
+                  },
+                  "lobes": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "bulges the first push has (default 6; 0 = a round swell)"
+                  },
+                  "lumpiness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "how uneven the lobes are (default 0.35)"
+                  }
+                },
+                "required": [
+                  "at"
+                ],
+                "additionalProperties": false
+              },
+              "buoyancy": {
+                "$ref": "#/$defs/param",
+                "description": "px/tick\u00b2 of upward lift per unit temperature (default 0.15)"
+              },
+              "cooling": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "share of temperature lost per tick (default 0.03)"
+              },
+              "wind": {
+                "$ref": "#/$defs/vec",
+                "description": "[x, y] px/tick\u00b2 acceleration on the whole flow, each axis a parameter (default [0, 0])"
+              },
+              "drag": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "share of velocity lost per tick (default 0.05)"
+              },
+              "vorticity": {
+                "type": "number",
+                "minimum": 0,
+                "description": "vorticity-confinement epsilon: billowing curls (default 0.3)"
+              },
+              "expand": {
+                "$ref": "#/$defs/param",
+                "description": "divergence per unit density per tick: puffs swell as they drift (default 0)"
+              },
+              "maccormack": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "MacCormack correction weight for velocity and density advection (default 1; 0 = plain semi-Lagrangian, softer)"
+              },
+              "iterations": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "weighted-Jacobi pressure iterations per substep (default 40)"
+              },
+              "substeps": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "simulation substeps per tick (default 1)"
+              },
+              "diffusion": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 0.25,
+                "description": "density and temperature diffusion per tick: rounds blobs, melts one-cell wisps (default 0.08)"
+              },
+              "dissipation": {
+                "type": "number",
+                "minimum": 0,
+                "description": "density subtracted per tick: erodes the shape from its thin edges (default 0.02)"
+              },
+              "sponge": {
+                "type": "number",
+                "minimum": 0,
+                "description": "cells along free top and side edges where smoke erodes faster, so the box never cuts it flat (default 5; 0 = off)"
+              },
+              "jitter": {
+                "type": "number",
+                "minimum": 0,
+                "description": "px sources wander each tick (default 0.5)"
+              },
+              "threshold": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "density at or below this is empty (default 0.2)"
+              },
+              "invert": {
+                "type": "boolean",
+                "description": "dense smoke maps to the dark end of the ramp (default false)"
+              },
+              "shade": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "share of the value from a top-lit bevel (default 0.6; 0 = density only)"
+              },
+              "light": {
+                "type": "number",
+                "description": "degrees toward the light (default 250: up and a little left)"
+              },
+              "shade_px": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "description": "how far the bevel probe looks, px (default 3)"
+              },
+              "preroll": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "ticks simulated before the layer's first tick (default 2 x height when looping, else 0)"
+              },
+              "loop": {
+                "const": "crossfade",
+                "description": "blend the last `crossfade` ticks into the pre-roll so the loop is seamless (default when the layer spans the loop)"
+              },
+              "crossfade": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "crossfade ticks (default min(10, a third of the loop))"
+              },
+              "lobes": {
+                "type": "object",
+                "description": "draw the smoke as hand-drawn lobes the simulated flow carries (Saint11's puffs: round, top-lit in three tones toward `light`, bitten into crescents, then dots) instead of the thresholded density",
+                "properties": {
+                  "count": {
+                    "$ref": "#/$defs/param",
+                    "description": "lobes each source puffs at the start of each on-window (default 3; a range draws per puff)"
+                  },
+                  "every": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "ticks between puffs while a source stays on (default 0: one puff per on-window)"
+                  },
+                  "spread": {
+                    "anyOf": [
+                      {
+                        "type": "number",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0
+                        },
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    ],
+                    "description": "lobes scatter within this share of the source radius, or [x, y] shares for an oval (default 1)"
+                  },
+                  "r": {
+                    "$ref": "#/$defs/param",
+                    "description": "lobe radius px over its life (default 4)"
+                  },
+                  "size_jitter": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 0.9,
+                    "description": "each lobe's radius varies by up to this share (default 0.2)"
+                  },
+                  "life": {
+                    "$ref": "#/$defs/param",
+                    "description": "ticks a lobe lives (default [24, 34])"
+                  },
+                  "erode": {
+                    "type": "array",
+                    "items": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "description": "[bite, dots]: life shares where the crescent bite starts and where it breaks into dots (default [0.3, 0.72])"
+                  },
+                  "follow": {
+                    "type": "number",
+                    "description": "share of the grid's flow a lobe rides (default 1)"
+                  },
+                  "drift": {
+                    "$ref": "#/$defs/vec",
+                    "description": "[x, y] px/tick added to a lobe's motion, each axis a parameter keyed over the lobe's own life (default [0, 0])"
+                  },
+                  "value_over_life": {
+                    "$ref": "#/$defs/param",
+                    "description": "multiplier on the lobe's tones over its life (default 1)"
+                  },
+                  "cut": {
+                    "$ref": "#/$defs/param",
+                    "description": "degrees the crescent bite comes from (90 = from below; default opposite `light`), each lobe within \u00b145"
+                  },
+                  "shadow": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "px of a darker step along the cloud's edge away from `light` (default 0 = none)"
+                  },
+                  "spacing": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "px a puff keeps between its lobes' centres when the source disc has room (default 0: plain random)"
+                  },
+                  "cohesion": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "0..1: how much a lobe rides the flow at its puff's centre instead of its own, so a puff holds together (default 0)"
+                  },
+                  "bite": {
+                    "enum": [
+                      "lobe",
+                      "puff"
+                    ],
+                    "description": "`lobe` (default): each lobe is eaten into its own crescent; `puff`: one bite hollows each puff, leaving a ring of arcs (chimney puffs)"
+                  },
+                  "step": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "ticks between lobe moves (default 1; 2 = on twos, all lobes on the same ticks, so thin rims do not strobe); in a loop it should divide the loop"
+                  },
+                  "stagger": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "ticks between the births of a puff's lobes, so a puff blooms lobe by lobe instead of popping in (default 0)"
+                  },
+                  "swell": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "px/tick a puff's lobes drift apart from its centre (default 0), so a hollowed puff opens into a widening ring"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "width",
+              "height",
+              "ramp"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "water"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "width": {
+                "type": "integer",
+                "minimum": 4,
+                "description": "Cells across (default 48)"
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 4,
+                "description": "Cells down (default 32)"
+              },
+              "cell": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "px per cell, the grid spacing h (default 1)"
+              },
+              "at": {
+                "$ref": "#/$defs/xy",
+                "description": "Bottom-centre of the grid, read at u = 0 (default [0, 0])"
+              },
+              "walls": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "left",
+                    "right",
+                    "bottom",
+                    "top"
+                  ]
+                },
+                "uniqueItems": true,
+                "description": "Solid sides (default [left, right, bottom]); particles leaving an open side are removed"
+              },
+              "gravity": {
+                "$ref": "#/$defs/param",
+                "description": "px/tick\u00b2, down = +y (default 0.25)"
+              },
+              "flip_ratio": {
+                "$ref": "#/$defs/param",
+                "description": "0 = PIC (damped) .. 1 = FLIP (lively), keyed (default 0.9)"
+              },
+              "damping": {
+                "$ref": "#/$defs/param",
+                "description": "Share of speed pool water loses per tick, keyed (default 0)"
+              },
+              "sponge": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Cells beside each side wall that absorb waves (default 0)"
+              },
+              "substeps": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 8,
+                "description": "Solver steps per tick (default 3)"
+              },
+              "pressure_iters": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 200,
+                "description": "Gauss-Seidel sweeps per substep (default 30)"
+              },
+              "over_relax": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 1.99,
+                "description": "SOR omega (default 1.9)"
+              },
+              "push_iters": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 8,
+                "description": "Push-apart passes (default 2)"
+              },
+              "particle_r": {
+                "type": "number",
+                "minimum": 0.1,
+                "maximum": 0.5,
+                "description": "Particle radius in cells (default 0.3)"
+              },
+              "stiffness": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Drift compensation k (default 1)"
+              },
+              "rest_density": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "description": "Particles per cell at rest (default: the fill density)"
+              },
+              "max_particles": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Emission stops here (default 8000)"
+              },
+              "pool": {
+                "type": "number",
+                "minimum": 0,
+                "description": "Cells of still water filling the bottom at the start (default 0)"
+              },
+              "preroll": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Ticks run before frame 0"
+              },
+              "loop": {
+                "const": "crossfade",
+                "description": "Steady flows only (fountain, drip)"
+              },
+              "crossfade": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Ticks (default min(6, span / 3))"
+              },
+              "obstacle": {
+                "type": "object",
+                "properties": {
+                  "at": {
+                    "$ref": "#/$defs/vec"
+                  },
+                  "r": {
+                    "$ref": "#/$defs/param"
+                  }
+                },
+                "required": [
+                  "r"
+                ],
+                "additionalProperties": false,
+                "description": "A solid circle (px), keyed; not drawn"
+              },
+              "emit": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "shape": {
+                      "enum": [
+                        "box",
+                        "circle"
+                      ]
+                    },
+                    "at": {
+                      "$ref": "#/$defs/vec"
+                    },
+                    "size": {
+                      "$ref": "#/$defs/vec"
+                    },
+                    "r": {
+                      "$ref": "#/$defs/param"
+                    },
+                    "velocity": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/$defs/vec"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "speed": {
+                              "$ref": "#/$defs/param"
+                            },
+                            "angle": {
+                              "$ref": "#/$defs/param"
+                            },
+                            "spread": {
+                              "$ref": "#/$defs/param"
+                            },
+                            "from": {
+                              "$ref": "#/$defs/vec"
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      ]
+                    },
+                    "during_u": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    },
+                    "rate": {
+                      "$ref": "#/$defs/param"
+                    },
+                    "count": {
+                      "oneOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        {
+                          "$ref": "#/$defs/range"
+                        }
+                      ]
+                    },
+                    "drive": {
+                      "type": "boolean"
+                    },
+                    "sink": {
+                      "type": "boolean"
+                    },
+                    "free": {
+                      "type": "boolean",
+                      "description": "Ballistic flight (gravity only) until the water reaches the pool's rest surface, then the grid takes it: clean jet arcs"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "show": {
+                "enum": [
+                  "all",
+                  "above"
+                ],
+                "description": "above: hide the pool below its rest surface (default all)"
+              },
+              "surface_margin": {
+                "type": "number",
+                "minimum": 0
+              },
+              "render_r": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "merge": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "value_from": {
+                "enum": [
+                  "speed",
+                  "depth",
+                  "mix",
+                  "rim"
+                ]
+              },
+              "shade": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "depth_span": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "speed_span": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "spray": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "spray_keep": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "release": {
+                "type": "number",
+                "minimum": 0,
+                "description": "px above the rest surface where `free` water joins the grid (default 0.5)"
+              },
+              "rim_shade": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "minItems": 3,
+                "maxItems": 4,
+                "description": "value_from rim: [shadow rim, lit rim, core, glint/foam] values (default [0.12, 0.37, 0.62, 0.9])"
+              },
+              "light": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 360,
+                "description": "value_from rim: degrees toward the light (default 225, upper left)"
+              },
+              "pulse": {
+                "type": "object",
+                "properties": {
+                  "every": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "on": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Water emitted on the first `on` ticks of every `every` draws one value lighter (rim mode): glints that ride the stream"
+              },
+              "foam": {
+                "type": "object",
+                "properties": {
+                  "height": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": false,
+                "description": "value_from rim: liquid within `height` px above the waterline takes the top rim_shade value"
+              },
+              "spray_value": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Fixed value of 1 px spray droplets (default: from depth and speed)"
+              }
+            },
+            "required": [
+              "width",
+              "height",
+              "ramp"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "stream"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "from": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/param"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "velocity": {
+                "type": "object",
+                "properties": {
+                  "speed": {
+                    "$ref": "#/$defs/param"
+                  },
+                  "angle": {
+                    "$ref": "#/$defs/param"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "gravity": {
+                "type": "number"
+              },
+              "flight": {
+                "$ref": "#/$defs/param"
+              },
+              "body": {
+                "$ref": "#/$defs/param"
+              },
+              "width": {
+                "$ref": "#/$defs/param"
+              },
+              "edge": {
+                "$ref": "#/$defs/param"
+              },
+              "beads": {
+                "type": "object",
+                "properties": {
+                  "every": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "length": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "value": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "offset": {
+                    "type": "number"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "drops": {
+                "type": "boolean"
+              },
+              "shade": {
+                "enum": [
+                  "core",
+                  "side"
+                ]
+              },
+              "tail": {
+                "$ref": "#/$defs/param"
+              },
+              "thin": {
+                "$ref": "#/$defs/param"
+              }
+            },
+            "required": [
+              "from",
+              "velocity",
+              "flight",
+              "ramp"
+            ]
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    },
+    "xy": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "A fixed [x, y] point (no keys, no ranges): read once"
+    }
+  }
+}

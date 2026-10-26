@@ -1,0 +1,39 @@
+[project]
+name = "spritefx"
+version = "0.1.0"
+description = "Turn a pixel-art visual effect written as JSON into clean, palette-locked effect sheets, with pixel and motion audits."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Long Nguyen"}]
+keywords = ["pixel-art", "vfx", "sprite-sheet", "gamedev", "procedural", "particles", "claude-code"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Games/Entertainment",
+    "Topic :: Multimedia :: Graphics",
+]
+dependencies = [
+    "numpy==2.4.6",
+    "Pillow==12.3.0",
+    "jsonschema==4.26.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/HoangLong256/spritefx"
+
+[project.optional-dependencies]
+test = ["pytest==9.1.1"]
+
+[tool.setuptools]
+packages = ["fx", "fx.layers"]
+
+[tool.setuptools.package-data]
+fx = ["schema.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
