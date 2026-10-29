@@ -1,0 +1,1082 @@
+{
+ "name": "summon",
+ "type": "other",
+ "canvas": "auto",
+ "anchor": "bottom",
+ "fps": 30,
+ "seed": 11,
+ "loop": true,
+ "ramps": {
+  "arcane": {
+   "colors": [
+    "#2e1f5e",
+    "#5a3ab0",
+    "#9070f0",
+    "#cdb8ff",
+    "#ffffff"
+   ]
+  },
+  "gold": {
+   "colors": [
+    "#7a4a10",
+    "#c8862c",
+    "#f2c45a",
+    "#fff0b0"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "draw",
+   "ticks": 18
+  },
+  {
+   "name": "channel",
+   "ticks": 24
+  },
+  {
+   "name": "burst",
+   "ticks": 3,
+   "fast": true,
+   "events": [
+    "summon"
+   ]
+  },
+  {
+   "name": "release",
+   "ticks": 30
+  }
+ ],
+ "sections": {
+  "start": [
+   "draw"
+  ],
+  "loop": [
+   "channel"
+  ],
+  "end": [
+   "burst",
+   "release"
+  ]
+ },
+ "layers": [
+  {
+   "id": "ring_out_0",
+   "kind": "shape",
+   "ramp": "arcane",
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.38,
+    "width": 3.0,
+    "from": 90.0,
+    "to": {
+     "keys": [
+      [
+       0,
+       93.75
+      ],
+      [
+       0.0,
+       93.75
+      ],
+      [
+       0.216,
+       180.0
+      ],
+      [
+       1,
+       180.0
+      ]
+     ]
+    },
+    "r": {
+     "keys": [
+      [
+       0,
+       26.0
+      ],
+      [
+       0.568,
+       26.0
+      ],
+      [
+       0.595,
+       27.5
+      ],
+      [
+       1,
+       27.5
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.85
+     ],
+     [
+      0.554,
+      0.85
+     ],
+     [
+      0.568,
+      1.1
+     ],
+     [
+      0.608,
+      0.95
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.608,
+    "noise": "angular",
+    "scale": 10,
+    "bias": 0.3,
+    "amount": 1.0,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "ring_out_1",
+   "kind": "shape",
+   "ramp": "arcane",
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.38,
+    "width": 3.0,
+    "from": 180.0,
+    "to": {
+     "keys": [
+      [
+       0,
+       183.75
+      ],
+      [
+       0.0,
+       183.75
+      ],
+      [
+       0.216,
+       270.0
+      ],
+      [
+       1,
+       270.0
+      ]
+     ]
+    },
+    "r": {
+     "keys": [
+      [
+       0,
+       26.0
+      ],
+      [
+       0.568,
+       26.0
+      ],
+      [
+       0.595,
+       27.5
+      ],
+      [
+       1,
+       27.5
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.85
+     ],
+     [
+      0.554,
+      0.85
+     ],
+     [
+      0.568,
+      1.1
+     ],
+     [
+      0.608,
+      0.95
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.608,
+    "noise": "angular",
+    "scale": 10,
+    "bias": 0.3,
+    "amount": 1.0,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "ring_out_2",
+   "kind": "shape",
+   "ramp": "arcane",
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.38,
+    "width": 3.0,
+    "from": 270.0,
+    "to": {
+     "keys": [
+      [
+       0,
+       273.75
+      ],
+      [
+       0.0,
+       273.75
+      ],
+      [
+       0.216,
+       360.0
+      ],
+      [
+       1,
+       360.0
+      ]
+     ]
+    },
+    "r": {
+     "keys": [
+      [
+       0,
+       26.0
+      ],
+      [
+       0.568,
+       26.0
+      ],
+      [
+       0.595,
+       27.5
+      ],
+      [
+       1,
+       27.5
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.85
+     ],
+     [
+      0.554,
+      0.85
+     ],
+     [
+      0.568,
+      1.1
+     ],
+     [
+      0.608,
+      0.95
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.608,
+    "noise": "angular",
+    "scale": 10,
+    "bias": 0.3,
+    "amount": 1.0,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "ring_out_3",
+   "kind": "shape",
+   "ramp": "arcane",
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.38,
+    "width": 3.0,
+    "from": 360.0,
+    "to": {
+     "keys": [
+      [
+       0,
+       363.75
+      ],
+      [
+       0.0,
+       363.75
+      ],
+      [
+       0.216,
+       450.0
+      ],
+      [
+       1,
+       450.0
+      ]
+     ]
+    },
+    "r": {
+     "keys": [
+      [
+       0,
+       26.0
+      ],
+      [
+       0.568,
+       26.0
+      ],
+      [
+       0.595,
+       27.5
+      ],
+      [
+       1,
+       27.5
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.85
+     ],
+     [
+      0.554,
+      0.85
+     ],
+     [
+      0.568,
+      1.1
+     ],
+     [
+      0.608,
+      0.95
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.608,
+    "noise": "angular",
+    "scale": 10,
+    "bias": 0.3,
+    "amount": 1.0,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "ring_in_0",
+   "kind": "shape",
+   "ramp": "arcane",
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.38,
+    "width": 2.2,
+    "from": 135.0,
+    "to": {
+     "keys": [
+      [
+       0,
+       142.5
+      ],
+      [
+       0.054,
+       142.5
+      ],
+      [
+       0.23,
+       315.0
+      ],
+      [
+       1,
+       315.0
+      ]
+     ]
+    },
+    "r": {
+     "keys": [
+      [
+       0,
+       20.0
+      ],
+      [
+       0.568,
+       20.0
+      ],
+      [
+       0.595,
+       21.5
+      ],
+      [
+       1,
+       21.5
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.554,
+      0.7
+     ],
+     [
+      0.568,
+      1.1
+     ],
+     [
+      0.608,
+      0.95
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.608,
+    "noise": "angular",
+    "scale": 10,
+    "bias": 0.3,
+    "amount": 1.0,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "ring_in_1",
+   "kind": "shape",
+   "ramp": "arcane",
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "arc",
+    "squash": 0.38,
+    "width": 2.2,
+    "from": 315.0,
+    "to": {
+     "keys": [
+      [
+       0,
+       322.5
+      ],
+      [
+       0.054,
+       322.5
+      ],
+      [
+       0.23,
+       495.0
+      ],
+      [
+       1,
+       495.0
+      ]
+     ]
+    },
+    "r": {
+     "keys": [
+      [
+       0,
+       20.0
+      ],
+      [
+       0.568,
+       20.0
+      ],
+      [
+       0.595,
+       21.5
+      ],
+      [
+       1,
+       21.5
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      0.554,
+      0.7
+     ],
+     [
+      0.568,
+      1.1
+     ],
+     [
+      0.608,
+      0.95
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.608,
+    "noise": "angular",
+    "scale": 10,
+    "bias": 0.3,
+    "amount": 1.0,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "runes",
+   "kind": "shape",
+   "ramp": "gold",
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "rays",
+    "squash": 0.38,
+    "count": 8,
+    "inner": 21.8,
+    "length": {
+     "keys": [
+      [
+       0,
+       21.8
+      ],
+      [
+       0.122,
+       21.8
+      ],
+      [
+       0.203,
+       24.5
+      ],
+      [
+       1,
+       24.5
+      ]
+     ]
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.122,
+       0
+      ],
+      [
+       0.203,
+       3.0
+      ],
+      [
+       1,
+       3.0
+      ]
+     ]
+    },
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.243,
+       0
+      ],
+      [
+       0.568,
+       -45
+      ],
+      [
+       1,
+       -60
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.8
+     ],
+     [
+      0.554,
+      0.8
+     ],
+     [
+      0.568,
+      1.2
+     ],
+     [
+      1,
+      0.7
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.608,
+    "noise": "angular",
+    "scale": 12,
+    "bias": 0.3,
+    "amount": 1.6,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "hexagram",
+   "kind": "shape",
+   "ramp": "arcane",
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "star",
+    "squash": 0.38,
+    "points": 6,
+    "inner": 0.58,
+    "onion": 1.3,
+    "r": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.027,
+       0
+      ],
+      [
+       0.23,
+       20.0
+      ],
+      [
+       1,
+       20.0
+      ]
+     ]
+    },
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.243,
+       0
+      ],
+      [
+       0.568,
+       60
+      ],
+      [
+       1,
+       75
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.75
+     ],
+     [
+      0.554,
+      0.75
+     ],
+     [
+      0.568,
+      1.05
+     ],
+     [
+      0.608,
+      0.9
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.608,
+    "noise": "angular",
+    "scale": 12,
+    "bias": 0.3,
+    "amount": 1.6,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "motes",
+   "kind": "particles",
+   "ramp": "arcane",
+   "tag": "sparkle",
+   "during": [
+    "channel"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": 0.7,
+    "from": {
+     "area": "rect",
+     "at": [
+      0,
+      -12.0
+     ],
+     "size": [
+      46.0,
+      15.760000000000002
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.35,
+     0.7
+    ],
+    "angle": 270,
+    "spread": 10
+   },
+   "life": [
+    14,
+    24
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": 1
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.6
+     ],
+     [
+      0.3,
+      1.0
+     ],
+     [
+      1,
+      0.5
+     ]
+    ]
+   }
+  },
+  {
+   "id": "shock",
+   "kind": "shape",
+   "ramp": "arcane",
+   "role": "flash",
+   "during": [
+    "burst",
+    "release"
+   ],
+   "at": [
+    0,
+    -12.0
+   ],
+   "shape": {
+    "sdf": "ring",
+    "squash": 0.38,
+    "r": {
+     "keys": [
+      [
+       0,
+       10
+      ],
+      [
+       0.12,
+       30.0
+      ],
+      [
+       1,
+       34.0
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       5
+      ],
+      [
+       0.12,
+       3.5
+      ],
+      [
+       0.6,
+       1.6
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      1.5
+     ],
+     [
+      0.4,
+      1.0
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.2,
+    "noise": "angular",
+    "scale": 12,
+    "bias": 0.3,
+    "amount": 1.4,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "dissolve",
+   "kind": "particles",
+   "ramp": "arcane",
+   "tag": "sparkle",
+   "during": [
+    "release"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.15,
+       2.5
+      ],
+      [
+       0.5,
+       2.0
+      ],
+      [
+       0.62,
+       0
+      ]
+     ]
+    },
+    "from": {
+     "area": "rect",
+     "at": [
+      0,
+      -12.0
+     ],
+     "size": [
+      50.0,
+      19.76
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.5,
+     1.1
+    ],
+    "angle": 270,
+    "spread": 15
+   },
+   "drag": 0.05,
+   "life": [
+    5,
+    9
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": 1
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      1,
+      0.55
+     ]
+    ]
+   }
+  },
+  {
+   "id": "sparks",
+   "kind": "particles",
+   "ramp": "gold",
+   "tag": "sparkle",
+   "during": [
+    "burst",
+    "release"
+   ],
+   "emit": {
+    "mode": "burst",
+    "count": [
+     7,
+     8
+    ],
+    "from": {
+     "area": "rect",
+     "at": [
+      0,
+      -16.0
+     ],
+     "size": [
+      20,
+      6
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.8,
+     1.8
+    ],
+    "angle": 270,
+    "spread": 50
+   },
+   "drag": 0.08,
+   "gravity": 0.03,
+   "life": [
+    9,
+    14
+   ],
+   "stamp": {
+    "kind": "star",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.5,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.2
+     ],
+     [
+      1,
+      0.7
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "ring_out_0",
+  "ring_out_1",
+  "ring_out_2",
+  "ring_out_3",
+  "ring_in_0",
+  "ring_in_1",
+  "runes",
+  "hexagram",
+  "shock",
+  "motes",
+  "dissolve",
+  "sparks"
+ ],
+ "outputs": {
+  "emissive": [
+   "shock"
+  ]
+ }
+}

@@ -1,0 +1,23 @@
+{
+  "name": "smoke_puff",
+  "type": "puff",
+  "canvas": "auto",
+  "anchor": "bottom",
+  "fps": 30,
+  "seed": 11,
+  "palette": "default",
+  "ramps": {"dust": {"colors": ["#3a3446", "#5f5a6e", "#8d8a9b", "#c2c0cc"]}},
+  "phases": [
+    {"name": "pop", "ticks": 3},
+    {"name": "billow", "ticks": 9},
+    {"name": "fade", "ticks": 14}
+  ],
+  "layers": [
+    {"id": "puffs", "kind": "particles", "during": ["pop", "billow", "fade"], "ramp": "dust", "role": "smoke",
+     "emit": {"mode": "burst", "count": 5, "from": {"area": "rect", "size": [10, 2], "at": [0, -3]}},
+     "velocity": {"speed": [0.25, 0.55], "angle": [215, 325]}, "drag": 0.06, "wind": [0, -0.05],
+     "life": [18, 26],
+     "stamp": {"kind": "puff", "r": {"keys": [[0, 2.5], [0.25, 5], [1, 5]], "ease": "out"}, "erode": "crescent", "erode_angle": 120},
+     "value_over_life": {"keys": [[0, 1.0], [0.5, 0.6], [1, 0.0]], "ease": "inout"}}
+  ]
+}

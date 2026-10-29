@@ -1,0 +1,373 @@
+{
+  "name": "explosion",
+  "type": "explosion",
+  "canvas": "auto",
+  "anchor": "center",
+  "fps": 30,
+  "seed": 7,
+  "palette": "default",
+  "ramps": {
+    "blast": {
+      "colors": [
+        "#ac3232",
+        "#df7126",
+        "#feae34",
+        "#fbf236",
+        "#ffffff"
+      ]
+    },
+    "soot": {
+      "colors": [
+        "#222034",
+        "#3f3f58",
+        "#62637a",
+        "#9a9cad"
+      ]
+    }
+  },
+  "phases": [
+    {
+      "name": "contrast",
+      "ticks": 1
+    },
+    {
+      "name": "flash",
+      "ticks": 2,
+      "fast": true,
+      "events": [
+        "hit",
+        "shake:3"
+      ]
+    },
+    {
+      "name": "blast",
+      "ticks": 4,
+      "fast": true
+    },
+    {
+      "name": "burn",
+      "ticks": 10
+    },
+    {
+      "name": "linger",
+      "ticks": 23
+    }
+  ],
+  "layers": [
+    {
+      "id": "dark",
+      "kind": "shape",
+      "during": [
+        "contrast"
+      ],
+      "ramp": "soot",
+      "value": 0.1,
+      "shape": {
+        "sdf": "circle",
+        "r": 8
+      }
+    },
+    {
+      "id": "flash",
+      "kind": "shape",
+      "during": [
+        "flash"
+      ],
+      "ramp": "blast",
+      "role": "flash",
+      "value": 1.0,
+      "shape": {
+        "sdf": "star",
+        "points": 6,
+        "r": [
+          6,
+          13
+        ],
+        "rotate": 15
+      }
+    },
+    {
+      "id": "core",
+      "kind": "field",
+      "during": [
+        "blast",
+        "burn"
+      ],
+      "ramp": "blast",
+      "role": "fire",
+      "value": {
+        "keys": [
+          [
+            0,
+            1.45
+          ],
+          [
+            0.5,
+            1.05
+          ],
+          [
+            1,
+            0.6
+          ]
+        ],
+        "ease": "in"
+      },
+      "mask": {
+        "sdf": "circle",
+        "r": {
+          "keys": [
+            [
+              0,
+              9
+            ],
+            [
+              0.3,
+              13
+            ],
+            [
+              1,
+              9
+            ]
+          ],
+          "ease": "out"
+        }
+      },
+      "noise": {
+        "kind": "worley",
+        "scale": 5,
+        "speed": 0.04,
+        "invert": true
+      },
+      "radial_falloff": 0.75,
+      "threshold": {
+        "keys": [
+          [
+            0,
+            0.0
+          ],
+          [
+            0.45,
+            0.05
+          ],
+          [
+            1,
+            0.5
+          ]
+        ],
+        "ease": "in"
+      }
+    },
+    {
+      "id": "ring",
+      "kind": "shape",
+      "during": [
+        "blast",
+        "burn"
+      ],
+      "ramp": "blast",
+      "role": "fire",
+      "shape": {
+        "sdf": "ring",
+        "r": {
+          "keys": [
+            [
+              0,
+              10
+            ],
+            [
+              1,
+              21
+            ]
+          ],
+          "ease": "out3"
+        },
+        "width": {
+          "keys": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      "value": {
+        "keys": [
+          [
+            0,
+            0.4
+          ],
+          [
+            0.4,
+            0.2
+          ],
+          [
+            1,
+            0.05
+          ]
+        ]
+      },
+      "break_up": {
+        "after": 0.2,
+        "noise": "angular",
+        "amount": 1
+      }
+    },
+    {
+      "id": "debris",
+      "kind": "particles",
+      "during": [
+        "blast",
+        "burn"
+      ],
+      "ramp": "blast",
+      "tag": "debris",
+      "emit": {
+        "mode": "burst",
+        "count": [
+          7,
+          9
+        ],
+        "from": {
+          "area": "circle",
+          "r": 4
+        }
+      },
+      "velocity": {
+        "speed": [
+          1.4,
+          2.4
+        ],
+        "angle": "out"
+      },
+      "gravity": 0.1,
+      "drag": 0.04,
+      "life": [
+        8,
+        13
+      ],
+      "stamp": {
+        "kind": "plus",
+        "size": {
+          "keys": [
+            [
+              0,
+              3
+            ],
+            [
+              0.5,
+              1
+            ]
+          ]
+        }
+      },
+      "value_over_life": {
+        "keys": [
+          [
+            0,
+            0.9
+          ],
+          [
+            1,
+            0.2
+          ]
+        ]
+      }
+    },
+    {
+      "id": "smoke",
+      "kind": "particles",
+      "during": [
+        "burn",
+        "linger"
+      ],
+      "ramp": "soot",
+      "role": "smoke",
+      "emit": {
+        "mode": "burst",
+        "count": 9,
+        "from": {
+          "area": "circle",
+          "r": 7
+        }
+      },
+      "velocity": {
+        "speed": [
+          0.15,
+          0.4
+        ],
+        "angle": "out"
+      },
+      "wind": [
+        0,
+        -0.12
+      ],
+      "life": [
+        14,
+        30
+      ],
+      "stamp": {
+        "kind": "puff",
+        "r": {
+          "keys": [
+            [
+              0,
+              3
+            ],
+            [
+              0.3,
+              5.5
+            ],
+            [
+              1,
+              5.5
+            ]
+          ],
+          "ease": "out"
+        },
+        "erode": "crescent",
+        "erode_angle": 135
+      },
+      "value_over_life": {
+        "keys": [
+          [
+            0,
+            0.95
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.8,
+            0.15
+          ],
+          [
+            1,
+            0.0
+          ]
+        ],
+        "ease": "inout"
+      },
+      "min_cluster": 4
+    }
+  ],
+  "order": [
+    "smoke",
+    "ring",
+    "core",
+    "debris",
+    "flash",
+    "dark"
+  ],
+  "outputs": {
+    "add": [],
+    "emissive": [
+      "core",
+      "flash"
+    ]
+  }
+}

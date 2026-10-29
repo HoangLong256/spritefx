@@ -1,0 +1,29 @@
+{
+ "name": "staff_charge",
+ "type": "other",
+ "canvas": [21, 21],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 5,
+ "loop": true,
+ "ramps": {
+  "hex": {"colors": ["#3a0f2e", "#7a1a4a", "#c0306a", "#ff7aa8", "#ffe0ec"]}
+ },
+ "phases": [{"name": "charge", "ticks": 24}],
+ "layers": [
+  {"id": "glow", "kind": "shape", "ramp": "hex", "at": [0, 0],
+   "shape": {"sdf": "circle", "r": {"keys": [[0, 3.2], [0.5, 4.2], [1, 3.2]], "ease": "inout"}},
+   "value_mode": "radial", "edge": 0.35,
+   "value": {"keys": [[0, 0.75], [0.5, 0.9], [1, 0.75]], "ease": "inout"}},
+  {"id": "core", "kind": "shape", "ramp": "hex", "at": [0, 0],
+   "shape": {"sdf": "circle", "r": {"keys": [[0, 1.5], [0.5, 2.2], [1, 1.5]], "ease": "inout"}},
+   "value": {"keys": [[0, 1.0], [0.5, 1.15], [1, 1.0]], "ease": "inout"}},
+  {"id": "motes", "kind": "particles", "ramp": "hex", "tag": "sparkle",
+   "emit": {"mode": "stream", "rate": 0.75, "from": {"area": "ring", "at": [0, 0], "r": 9}},
+   "velocity": {"speed": -0.85, "angle": "out"}, "life": [6, 8],
+   "stamp": {"kind": "dot", "size": 1},
+   "value_over_life": {"keys": [[0, 0.55], [1, 0.95]]}}
+ ],
+ "order": ["glow", "core", "motes"],
+ "outputs": {"emissive": ["core"]}
+}

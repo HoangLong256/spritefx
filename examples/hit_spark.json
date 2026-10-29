@@ -1,0 +1,169 @@
+{
+  "name": "hit_spark",
+  "type": "hit",
+  "canvas": "auto",
+  "anchor": "center",
+  "fps": 30,
+  "seed": 3,
+  "palette": "default",
+  "ramps": {
+    "spark": {
+      "colors": [
+        "#9e2835",
+        "#f77622",
+        "#feae34",
+        "#fee761",
+        "#ffffff"
+      ]
+    }
+  },
+  "phases": [
+    {
+      "name": "flash",
+      "ticks": 2,
+      "fast": true,
+      "events": [
+        "hit"
+      ]
+    },
+    {
+      "name": "burst",
+      "ticks": 3
+    },
+    {
+      "name": "fade",
+      "ticks": 5
+    }
+  ],
+  "layers": [
+    {
+      "id": "star",
+      "kind": "shape",
+      "during": [
+        "flash",
+        "burst",
+        "fade"
+      ],
+      "ramp": "spark",
+      "role": "flash",
+      "shape": {
+        "sdf": "star",
+        "points": 4,
+        "r": {
+          "keys": [
+            [
+              0,
+              7
+            ],
+            [
+              0.2,
+              9
+            ],
+            [
+              1,
+              3
+            ]
+          ],
+          "ease": "out"
+        },
+        "inner": 0.3,
+        "rotate": 45
+      },
+      "value_mode": "radial",
+      "value": {
+        "keys": [
+          [
+            0,
+            1.15
+          ],
+          [
+            0.3,
+            0.95
+          ],
+          [
+            1,
+            0.4
+          ]
+        ],
+        "ease": "out"
+      },
+      "break_up": {
+        "after": 0.45,
+        "noise": "angular",
+        "amount": 1
+      },
+      "edge": 0.0
+    },
+    {
+      "id": "streaks",
+      "kind": "particles",
+      "during": [
+        "flash",
+        "burst",
+        "fade"
+      ],
+      "ramp": "spark",
+      "tag": "debris",
+      "emit": {
+        "mode": "burst",
+        "count": [
+          6,
+          7
+        ],
+        "from": {
+          "area": "circle",
+          "r": 1.5
+        }
+      },
+      "velocity": {
+        "speed": [
+          1.6,
+          2.6
+        ],
+        "angle": "out"
+      },
+      "drag": 0.18,
+      "life": [
+        6,
+        9
+      ],
+      "stamp": {
+        "kind": "streak",
+        "size": {
+          "keys": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      "value_over_life": {
+        "keys": [
+          [
+            0,
+            0.78
+          ],
+          [
+            1,
+            0.2
+          ]
+        ],
+        "ease": "in"
+      }
+    }
+  ],
+  "order": [
+    "streaks",
+    "star"
+  ],
+  "outputs": {
+    "emissive": [
+      "star"
+    ]
+  }
+}

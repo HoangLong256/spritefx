@@ -1,0 +1,143 @@
+{
+ "name": "smoke_burst",
+ "type": "puff",
+ "canvas": "auto",
+ "anchor": "bottom",
+ "fps": 30,
+ "seed": 9,
+ "palette": "default",
+ "ramps": {
+  "dust": {
+   "colors": [
+    "#2e2a3a",
+    "#514c63",
+    "#7d7990",
+    "#c4c2d2"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "pop",
+   "ticks": 3
+  },
+  {
+   "name": "billow",
+   "ticks": 9
+  },
+  {
+   "name": "fade",
+   "ticks": 18
+  }
+ ],
+ "layers": [
+  {
+   "id": "burst",
+   "kind": "smoke",
+   "ramp": "dust",
+   "role": "smoke",
+   "width": 36,
+   "height": 30,
+   "cell": 2,
+   "at": [
+    0,
+    0
+   ],
+   "boundary": "free",
+   "sources": [
+    {
+     "at": [
+      0,
+      -10
+     ],
+     "r": 10,
+     "density": 0.5,
+     "heat": 0.3,
+     "during_u": [
+      0,
+      0.05
+     ]
+    }
+   ],
+   "impulse": {
+    "at": [
+     0,
+     -9
+    ],
+    "r": 9,
+    "speed": 1.6,
+    "ticks": 6,
+    "lobes": 5,
+    "lumpiness": 0.4
+   },
+   "buoyancy": 0.12,
+   "cooling": 0.05,
+   "drag": 0.08,
+   "wind": [
+    0,
+    -0.03
+   ],
+   "expand": 0.04,
+   "vorticity": 0.4,
+   "diffusion": 0.06,
+   "dissipation": 0.05,
+   "light": 225,
+   "lobes": {
+    "count": 9,
+    "spread": [
+     1.2,
+     0.55
+    ],
+    "spacing": 4.5,
+    "r": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       0.25,
+       6.5
+      ],
+      [
+       1,
+       7
+      ]
+     ]
+    },
+    "size_jitter": 0.2,
+    "life": [
+     21,
+     29
+    ],
+    "erode": [
+     0.33,
+     0.7
+    ],
+    "cut": 90,
+    "swell": 0.12,
+    "shadow": 2,
+    "drift": [
+     0,
+     {
+      "keys": [
+       [
+        0,
+        -1.0
+       ],
+       [
+        0.4,
+        -0.2
+       ],
+       [
+        0.7,
+        0
+       ]
+      ]
+     }
+    ]
+   },
+   "min_cluster": 4
+  }
+ ]
+}

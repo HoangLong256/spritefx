@@ -1,0 +1,621 @@
+{
+ "name": "heal_potion",
+ "type": "heal",
+ "canvas": "auto",
+ "anchor": "bottom",
+ "fps": 30,
+ "seed": 21,
+ "ramps": {
+  "holy": {
+   "colors": [
+    "#8a5a1a",
+    "#d9a03a",
+    "#f6d36b",
+    "#fff4c2",
+    "#ffffff"
+   ]
+  },
+  "rose": {
+   "colors": [
+    "#5a1426",
+    "#a3263f",
+    "#e0485e",
+    "#ff8fa0",
+    "#ffe1e6"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "gather",
+   "ticks": 5
+  },
+  {
+   "name": "bloom",
+   "ticks": 3,
+   "fast": true
+  },
+  {
+   "name": "drop",
+   "ticks": 3,
+   "fast": true
+  },
+  {
+   "name": "land",
+   "ticks": 3,
+   "fast": true,
+   "events": [
+    "heal"
+   ]
+  },
+  {
+   "name": "rise",
+   "ticks": 18
+  },
+  {
+   "name": "fade",
+   "ticks": 12
+  }
+ ],
+ "layers": [
+  {
+   "id": "gather",
+   "kind": "particles",
+   "ramp": "rose",
+   "tag": "sparkle",
+   "during": [
+    "gather"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": {
+     "keys": [
+      [
+       0,
+       1.8
+      ],
+      [
+       0.6,
+       1.8
+      ],
+      [
+       0.8,
+       0
+      ]
+     ]
+    },
+    "from": {
+     "area": "ring",
+     "at": [
+      0,
+      -30.0
+     ],
+     "r": 13
+    }
+   },
+   "velocity": {
+    "speed": -1.4,
+    "angle": "out"
+   },
+   "life": [
+    7,
+    9
+   ],
+   "stamp": {
+    "kind": "disc",
+    "r": {
+     "keys": [
+      [
+       0,
+       1.0
+      ],
+      [
+       1,
+       1.4
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      1,
+      1.0
+     ]
+    ]
+   }
+  },
+  {
+   "id": "glow",
+   "kind": "shape",
+   "ramp": "rose",
+   "during": [
+    "bloom",
+    "drop"
+   ],
+   "at": [
+    0,
+    {
+     "keys": [
+      [
+       0,
+       -30.0
+      ],
+      [
+       0.4,
+       -30.0
+      ],
+      [
+       1,
+       -5
+      ]
+     ],
+     "ease": "in"
+    }
+   ],
+   "shape": {
+    "sdf": "circle",
+    "r": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       0.2,
+       7
+      ],
+      [
+       0.5,
+       5
+      ],
+      [
+       1,
+       3
+      ]
+     ]
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.4,
+   "value": 0.95
+  },
+  {
+   "id": "pulse",
+   "kind": "shape",
+   "ramp": "holy",
+   "role": "flash",
+   "tag": "sparkle",
+   "during": [
+    "bloom",
+    "drop"
+   ],
+   "at": [
+    0,
+    {
+     "keys": [
+      [
+       0,
+       -30.0
+      ],
+      [
+       0.4,
+       -30.0
+      ],
+      [
+       1,
+       -5
+      ]
+     ],
+     "ease": "in"
+    }
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "inner": 0.32,
+    "r": {
+     "keys": [
+      [
+       0,
+       6
+      ],
+      [
+       0.2,
+       10
+      ],
+      [
+       0.5,
+       7
+      ],
+      [
+       1,
+       4
+      ]
+     ]
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.35,
+   "value": 1.25
+  },
+  {
+   "id": "ground",
+   "kind": "shape",
+   "ramp": "holy",
+   "during": [
+    "land",
+    "rise",
+    "fade"
+   ],
+   "at": [
+    0,
+    -3
+   ],
+   "shape": {
+    "sdf": "ripple",
+    "rx": {
+     "keys": [
+      [
+       0,
+       5
+      ],
+      [
+       0.07,
+       18
+      ],
+      [
+       1,
+       21
+      ]
+     ],
+     "ease": "out"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.07,
+       6.84
+      ],
+      [
+       1,
+       7.98
+      ]
+     ],
+     "ease": "out"
+    },
+    "near": {
+     "keys": [
+      [
+       0,
+       3.2
+      ],
+      [
+       0.1,
+       3.0
+      ],
+      [
+       0.3,
+       1.7
+      ],
+      [
+       1,
+       1.0
+      ]
+     ]
+    },
+    "far": {
+     "keys": [
+      [
+       0,
+       1.4
+      ],
+      [
+       0.3,
+       0.9
+      ],
+      [
+       1,
+       0.7
+      ]
+     ]
+    }
+   },
+   "value_mode": "near",
+   "edge": 0.3,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.15
+     ],
+     [
+      0.15,
+      0.95
+     ],
+     [
+      1,
+      0.75
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.42,
+    "noise": "angular",
+    "scale": 12,
+    "bias": 0.3,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "crosses",
+   "kind": "particles",
+   "ramp": "holy",
+   "tag": "sparkle",
+   "mirror": "x",
+   "during": [
+    "rise",
+    "fade"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       0.06,
+       0.32
+      ],
+      [
+       0.35,
+       0.25
+      ],
+      [
+       0.42,
+       0
+      ]
+     ]
+    },
+    "from": {
+     "area": "rect",
+     "at": [
+      14,
+      -5
+     ],
+     "size": [
+      8,
+      4
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.6,
+     0.95
+    ],
+    "angle": 270,
+    "spread": 5
+   },
+   "drag": 0.03,
+   "life": [
+    13,
+    17
+   ],
+   "stamp": {
+    "kind": "plus",
+    "size": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       0.15,
+       4
+      ],
+      [
+       0.7,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.95
+     ],
+     [
+      0.5,
+      0.7
+     ],
+     [
+      1,
+      0.5
+     ]
+    ]
+   }
+  },
+  {
+   "id": "rose_sparks",
+   "kind": "particles",
+   "ramp": "rose",
+   "tag": "sparkle",
+   "during": [
+    "rise",
+    "fade"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": {
+     "keys": [
+      [
+       0,
+       0.5
+      ],
+      [
+       0.4,
+       0.4
+      ],
+      [
+       0.5,
+       0
+      ]
+     ]
+    },
+    "from": {
+     "area": "rect",
+     "at": [
+      0,
+      -6
+     ],
+     "size": [
+      38,
+      6
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.35,
+     0.7
+    ],
+    "angle": 270,
+    "spread": 15
+   },
+   "life": [
+    10,
+    15
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.5,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.85
+     ],
+     [
+      1,
+      0.55
+     ]
+    ]
+   }
+  },
+  {
+   "id": "streaks",
+   "kind": "particles",
+   "ramp": "holy",
+   "tag": "sparkle",
+   "during": [
+    "rise"
+   ],
+   "emit": {
+    "mode": "burst",
+    "count": [
+     5,
+     6
+    ],
+    "from": {
+     "area": "rect",
+     "at": [
+      0,
+      -4
+     ],
+     "size": [
+      30,
+      4
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     1.2,
+     1.8
+    ],
+    "angle": 270,
+    "spread": 4
+   },
+   "drag": 0.06,
+   "life": [
+    12,
+    16
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       5
+      ],
+      [
+       0.6,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.1
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "ground",
+  "rose_sparks",
+  "streaks",
+  "crosses",
+  "gather",
+  "glow",
+  "pulse"
+ ],
+ "outputs": {
+  "emissive": [
+   "pulse",
+   "ground"
+  ]
+ }
+}

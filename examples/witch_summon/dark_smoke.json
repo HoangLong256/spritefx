@@ -1,0 +1,312 @@
+{
+ "name": "dark_smoke",
+ "type": "other",
+ "canvas": "auto",
+ "anchor": "bottom",
+ "fps": 30,
+ "seed": 6,
+ "ramps": {
+  "plum": {
+   "colors": [
+    "#1a1220",
+    "#3a2238",
+    "#5e3550",
+    "#8a4a6a"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "well",
+   "ticks": 3,
+   "fast": true
+  },
+  {
+   "name": "rise",
+   "ticks": 15
+  },
+  {
+   "name": "churn",
+   "ticks": 36
+  },
+  {
+   "name": "clear",
+   "ticks": 40
+  }
+ ],
+ "layers": [
+  {
+   "id": "column",
+   "kind": "particles",
+   "ramp": "plum",
+   "role": "smoke",
+   "emit": {
+    "mode": "stream",
+    "rate": {
+     "keys": [
+      [
+       0,
+       1.3
+      ],
+      [
+       0.117,
+       1.0
+      ],
+      [
+       0.234,
+       0.75
+      ],
+      [
+       0.479,
+       0.55
+      ],
+      [
+       0.532,
+       0
+      ]
+     ]
+    },
+    "from": {
+     "area": "rect",
+     "at": [
+      0,
+      -3
+     ],
+     "size": [
+      24,
+      3
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     1.4,
+     1.9
+    ],
+    "angle": [
+     262,
+     278
+    ]
+   },
+   "drag": 0.03,
+   "wind": [
+    0,
+    -0.02
+   ],
+   "life": [
+    20,
+    44
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       3.5
+      ],
+      [
+       0.35,
+       6.5
+      ],
+      [
+       1,
+       7.5
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "crescent",
+    "erode_angle": 90
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.75
+     ],
+     [
+      0.5,
+      0.55
+     ],
+     [
+      1,
+      0.25
+     ]
+    ],
+    "ease": "inout"
+   }
+  },
+  {
+   "id": "base",
+   "kind": "particles",
+   "ramp": "plum",
+   "role": "smoke",
+   "emit": {
+    "mode": "stream",
+    "rate": {
+     "keys": [
+      [
+       0,
+       0.5
+      ],
+      [
+       0.287,
+       0.35
+      ],
+      [
+       0.479,
+       0.25
+      ],
+      [
+       0.511,
+       0
+      ]
+     ]
+    },
+    "from": {
+     "area": "rect",
+     "at": [
+      0,
+      -2
+     ],
+     "size": [
+      40,
+      2
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.25,
+     0.45
+    ],
+    "angle": [
+     200,
+     340
+    ]
+   },
+   "drag": 0.06,
+   "life": [
+    18,
+    24
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.4,
+       5
+      ],
+      [
+       1,
+       5.5
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "crescent",
+    "erode_angle": 90
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.6
+     ],
+     [
+      1,
+      0.2
+     ]
+    ],
+    "ease": "inout"
+   }
+  },
+  {
+   "id": "well",
+   "kind": "particles",
+   "ramp": "plum",
+   "role": "smoke",
+   "during": [
+    "well",
+    "rise",
+    "churn"
+   ],
+   "emit": {
+    "mode": "burst",
+    "count": 7,
+    "from": {
+     "area": "rect",
+     "at": [
+      0,
+      -3
+     ],
+     "size": [
+      34,
+      3
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.5,
+     0.9
+    ],
+    "angle": [
+     240,
+     300
+    ]
+   },
+   "drag": 0.05,
+   "life": [
+    22,
+    30
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       0.3,
+       7
+      ],
+      [
+       1,
+       7.5
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "crescent",
+    "erode_angle": 90
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      1,
+      0.25
+     ]
+    ],
+    "ease": "inout"
+   }
+  }
+ ],
+ "order": [
+  "base",
+  "well",
+  "column"
+ ]
+}

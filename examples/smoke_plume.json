@@ -1,0 +1,117 @@
+{
+ "name": "smoke_plume",
+ "type": "other",
+ "canvas": "auto",
+ "anchor": "bottom",
+ "fps": 30,
+ "seed": 5,
+ "loop": true,
+ "palette": "default",
+ "ramps": {
+  "smoke": {
+   "colors": [
+    "#2e2a3a",
+    "#514c63",
+    "#7d7990",
+    "#c4c2d2"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "rise",
+   "ticks": 96
+  }
+ ],
+ "layers": [
+  {
+   "id": "plume",
+   "kind": "smoke",
+   "ramp": "smoke",
+   "role": "smoke",
+   "width": 22,
+   "height": 30,
+   "cell": 2,
+   "at": [
+    0,
+    0
+   ],
+   "boundary": "free",
+   "sources": [
+    {
+     "at": [
+      0,
+      -5
+     ],
+     "r": 4,
+     "density": 0.3,
+     "heat": 0.4,
+     "velocity": [
+      0,
+      -1.0
+     ],
+     "pulse": [
+      24,
+      4
+     ],
+     "phase": 7
+    }
+   ],
+   "buoyancy": 0.2,
+   "cooling": 0.1,
+   "drag": 0.1,
+   "expand": 0.06,
+   "wind": [
+    0.008,
+    0
+   ],
+   "vorticity": 0.25,
+   "diffusion": 0.08,
+   "dissipation": 0.015,
+   "sponge": 6,
+   "light": 225,
+   "loop": "crossfade",
+   "crossfade": 16,
+   "lobes": {
+    "count": 3,
+    "spread": [
+     1.3,
+     0.9
+    ],
+    "spacing": 2.5,
+    "r": {
+     "keys": [
+      [
+       0,
+       2.5
+      ],
+      [
+       0.3,
+       5.5
+      ]
+     ]
+    },
+    "size_jitter": 0.15,
+    "life": [
+     76,
+     82
+    ],
+    "erode": [
+     0.42,
+     0.72
+    ],
+    "cut": 90,
+    "cohesion": 1.0,
+    "bite": "puff",
+    "stagger": 1,
+    "step": 2,
+    "shadow": 2,
+    "drift": [
+     0.03,
+     -0.35
+    ]
+   },
+   "min_cluster": 4
+  }
+ ]
+}

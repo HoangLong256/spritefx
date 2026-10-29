@@ -1,0 +1,439 @@
+{
+  "name": "slash",
+  "type": "slash",
+  "canvas": "auto",
+  "anchor": "center",
+  "fps": 30,
+  "seed": 5,
+  "palette": "default",
+  "ramps": {
+    "steel": {
+      "colors": [
+        "#2b2b6b",
+        "#3b5dc9",
+        "#5aa9f0",
+        "#bde8ff",
+        "#ffffff"
+      ]
+    }
+  },
+  "phases": [
+    {
+      "name": "swing",
+      "ticks": 2,
+      "fast": true
+    },
+    {
+      "name": "impact",
+      "ticks": 2,
+      "fast": true,
+      "events": [
+        "hit"
+      ]
+    },
+    {
+      "name": "shatter",
+      "ticks": 7
+    }
+  ],
+  "layers": [
+    {
+      "id": "speed_out",
+      "kind": "shape",
+      "during": [
+        "swing"
+      ],
+      "ramp": "steel",
+      "role": "flash",
+      "shape": {
+        "sdf": "arc",
+        "r": 25.5,
+        "width": {
+          "keys": [
+            [
+              0,
+              2
+            ],
+            [
+              0.67,
+              2
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        "taper": 0.4,
+        "from": {
+          "keys": [
+            [
+              0,
+              220
+            ],
+            [
+              0.5,
+              280
+            ],
+            [
+              1,
+              336
+            ]
+          ]
+        },
+        "to": {
+          "keys": [
+            [
+              0,
+              290
+            ],
+            [
+              0.5,
+              350
+            ],
+            [
+              1,
+              406
+            ]
+          ]
+        }
+      },
+      "value": {
+        "keys": [
+          [
+            0,
+            0.6
+          ],
+          [
+            1,
+            0.42
+          ]
+        ]
+      }
+    },
+    {
+      "id": "swing",
+      "kind": "shape",
+      "during": [
+        "swing",
+        "impact"
+      ],
+      "ramp": "steel",
+      "role": "flash",
+      "shape": {
+        "sdf": "crescent",
+        "r": 22,
+        "from": {
+          "keys": [
+            [
+              0,
+              230
+            ],
+            [
+              0.33,
+              206
+            ],
+            [
+              0.67,
+              198
+            ],
+            [
+              1,
+              198
+            ]
+          ]
+        },
+        "to": {
+          "keys": [
+            [
+              0,
+              360
+            ],
+            [
+              0.33,
+              440
+            ],
+            [
+              0.67,
+              452
+            ],
+            [
+              1,
+              452
+            ]
+          ]
+        },
+        "width": {
+          "keys": [
+            [
+              0,
+              6
+            ],
+            [
+              0.33,
+              11
+            ],
+            [
+              1,
+              11
+            ]
+          ]
+        },
+        "peak": 0.7,
+        "sharp": 1.4
+      },
+      "value_mode": "sweep",
+      "edge": 0.55,
+      "tail": 0.1,
+      "value": {
+        "keys": [
+          [
+            0,
+            1.5
+          ],
+          [
+            0.33,
+            1.7
+          ],
+          [
+            1,
+            1.2
+          ]
+        ]
+      }
+    },
+    {
+      "id": "shatter",
+      "kind": "shape",
+      "during": [
+        "shatter"
+      ],
+      "ramp": "steel",
+      "role": "flash",
+      "shape": {
+        "sdf": "crescent",
+        "r": {
+          "keys": [
+            [
+              0,
+              22
+            ],
+            [
+              1,
+              24
+            ]
+          ],
+          "ease": "out"
+        },
+        "from": {
+          "keys": [
+            [
+              0,
+              205
+            ],
+            [
+              1,
+              300
+            ]
+          ],
+          "ease": "in"
+        },
+        "to": {
+          "keys": [
+            [
+              0,
+              94
+            ],
+            [
+              1,
+              104
+            ]
+          ],
+          "ease": "out"
+        },
+        "width": {
+          "keys": [
+            [
+              0,
+              8
+            ],
+            [
+              0.5,
+              4
+            ],
+            [
+              1,
+              2
+            ]
+          ],
+          "ease": "out"
+        },
+        "peak": 0.7,
+        "sharp": 1.4,
+        "rotate": {
+          "keys": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              20
+            ]
+          ],
+          "ease": "out"
+        }
+      },
+      "value_mode": "sweep",
+      "edge": 0.6,
+      "tail": 0.2,
+      "value": {
+        "keys": [
+          [
+            0,
+            1.0
+          ],
+          [
+            1,
+            0.7
+          ]
+        ]
+      },
+      "break_up": {
+        "after": 0.0,
+        "noise": "angular",
+        "scale": 26,
+        "amount": 1,
+        "bias": 0.35,
+        "ease": "linear"
+      }
+    },
+    {
+      "id": "glint",
+      "kind": "shape",
+      "during": [
+        "impact",
+        "shatter"
+      ],
+      "ramp": "steel",
+      "role": "flash",
+      "tag": "sparkle",
+      "at": [
+        2,
+        22
+      ],
+      "shape": {
+        "sdf": "star",
+        "points": 4,
+        "r": {
+          "keys": [
+            [
+              0,
+              15
+            ],
+            [
+              0.25,
+              8
+            ],
+            [
+              0.4,
+              0
+            ],
+            [
+              1,
+              0
+            ]
+          ]
+        },
+        "inner": 0.12
+      },
+      "value_mode": "radial",
+      "edge": 0.3,
+      "value": 1.2
+    },
+    {
+      "id": "sparks",
+      "kind": "particles",
+      "during": [
+        "impact",
+        "shatter"
+      ],
+      "ramp": "steel",
+      "role": "spark",
+      "tag": "sparkle",
+      "emit": {
+        "mode": "burst",
+        "count": [
+          5,
+          6
+        ],
+        "from": {
+          "area": "circle",
+          "at": [
+            2,
+            21
+          ],
+          "r": 1.5
+        }
+      },
+      "velocity": {
+        "speed": [
+          1.6,
+          2.8
+        ],
+        "angle": 185,
+        "spread": 50
+      },
+      "drag": 0.15,
+      "gravity": 0.05,
+      "life": [
+        5,
+        8
+      ],
+      "stamp": {
+        "kind": "streak",
+        "size": {
+          "keys": [
+            [
+              0,
+              3
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      "value_over_life": {
+        "keys": [
+          [
+            0,
+            1.2
+          ],
+          [
+            0.6,
+            0.9
+          ],
+          [
+            1,
+            0.6
+          ]
+        ]
+      }
+    }
+  ],
+  "order": [
+    "speed_out",
+    "swing",
+    "shatter",
+    "sparks",
+    "glint"
+  ],
+  "outputs": {
+    "emissive": [
+      "swing",
+      "shatter"
+    ]
+  }
+}

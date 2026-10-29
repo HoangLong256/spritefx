@@ -1,0 +1,390 @@
+{
+ "name": "demon_burst",
+ "type": "explosion",
+ "canvas": "auto",
+ "anchor": "origin",
+ "fps": 30,
+ "seed": 4,
+ "ramps": {
+  "hellfire": {
+   "colors": [
+    "#4a0a10",
+    "#a01828",
+    "#e0402a",
+    "#ff9a6a",
+    "#ffffff"
+   ]
+  },
+  "soot": {
+   "colors": [
+    "#120a14",
+    "#2a1426",
+    "#4a2238",
+    "#6e3048"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "flash",
+   "ticks": 2,
+   "fast": true,
+   "events": [
+    "summon",
+    "shake:3"
+   ]
+  },
+  {
+   "name": "blast",
+   "ticks": 4,
+   "fast": true
+  },
+  {
+   "name": "burn",
+   "ticks": 6
+  },
+  {
+   "name": "linger",
+   "ticks": 28
+  }
+ ],
+ "layers": [
+  {
+   "id": "flash",
+   "kind": "shape",
+   "during": [
+    "flash"
+   ],
+   "ramp": "hellfire",
+   "role": "flash",
+   "value": 1.0,
+   "at": [
+    0,
+    0
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 6,
+    "r": [
+     9,
+     19
+    ],
+    "rotate": 15
+   }
+  },
+  {
+   "id": "core",
+   "kind": "field",
+   "during": [
+    "blast",
+    "burn"
+   ],
+   "ramp": "hellfire",
+   "role": "fire",
+   "value": {
+    "keys": [
+     [
+      0,
+      1.8
+     ],
+     [
+      0.6,
+      1.25
+     ],
+     [
+      1,
+      0.7
+     ]
+    ],
+    "ease": "in"
+   },
+   "mask": {
+    "sdf": "circle",
+    "r": {
+     "keys": [
+      [
+       0,
+       13
+      ],
+      [
+       0.3,
+       18
+      ],
+      [
+       1,
+       12
+      ]
+     ],
+     "ease": "out"
+    },
+    "at": [
+     0,
+     0
+    ]
+   },
+   "noise": {
+    "kind": "worley",
+    "scale": 5,
+    "speed": 0.04,
+    "invert": true
+   },
+   "radial_falloff": 1.0,
+   "threshold": {
+    "keys": [
+     [
+      0,
+      0.0
+     ],
+     [
+      0.45,
+      0.05
+     ],
+     [
+      1,
+      0.5
+     ]
+    ],
+    "ease": "in"
+   }
+  },
+  {
+   "id": "shock",
+   "kind": "shape",
+   "during": [
+    "blast",
+    "burn",
+    "linger"
+   ],
+   "ramp": "hellfire",
+   "role": "flash",
+   "at": [
+    0,
+    12
+   ],
+   "shape": {
+    "sdf": "ring",
+    "squash": 0.38,
+    "r": {
+     "keys": [
+      [
+       0,
+       14
+      ],
+      [
+       0.12,
+       34
+      ],
+      [
+       1,
+       40
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       0.12,
+       2.5
+      ],
+      [
+       1,
+       2
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.55
+     ],
+     [
+      0.3,
+      0.45
+     ],
+     [
+      1,
+      0.35
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.12,
+    "noise": "angular",
+    "scale": 12,
+    "bias": 0.3,
+    "amount": 1.6,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "debris",
+   "kind": "particles",
+   "during": [
+    "blast",
+    "burn"
+   ],
+   "ramp": "hellfire",
+   "tag": "debris",
+   "emit": {
+    "mode": "burst",
+    "count": [
+     9,
+     11
+    ],
+    "from": {
+     "area": "circle",
+     "at": [
+      0,
+      0
+     ],
+     "r": 4
+    }
+   },
+   "velocity": {
+    "speed": [
+     1.8,
+     3.0
+    ],
+    "angle": [
+     200,
+     340
+    ]
+   },
+   "gravity": 0.1,
+   "drag": 0.04,
+   "life": [
+    8,
+    13
+   ],
+   "stamp": {
+    "kind": "plus",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.5,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      1,
+      0.3
+     ]
+    ]
+   }
+  },
+  {
+   "id": "smoke",
+   "kind": "particles",
+   "during": [
+    "burn",
+    "linger"
+   ],
+   "ramp": "soot",
+   "role": "smoke",
+   "emit": {
+    "mode": "burst",
+    "count": 9,
+    "from": {
+     "area": "circle",
+     "at": [
+      0,
+      0
+     ],
+     "r": 10
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.35,
+     0.7
+    ],
+    "angle": "out"
+   },
+   "wind": [
+    0,
+    -0.1
+   ],
+   "life": [
+    10,
+    30
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       3.5
+      ],
+      [
+       0.3,
+       6.5
+      ],
+      [
+       1,
+       6.5
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "crescent",
+    "erode_angle": 135
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      0.5,
+      0.7
+     ],
+     [
+      0.8,
+      0.3
+     ],
+     [
+      1,
+      0.0
+     ]
+    ],
+    "ease": "inout"
+   },
+   "min_cluster": 4
+  }
+ ],
+ "order": [
+  "smoke",
+  "shock",
+  "core",
+  "debris",
+  "flash"
+ ],
+ "outputs": {
+  "emissive": [
+   "core",
+   "flash",
+   "shock"
+  ]
+ }
+}

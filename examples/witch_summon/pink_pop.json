@@ -1,0 +1,210 @@
+{
+ "name": "pink_pop",
+ "type": "other",
+ "canvas": "auto",
+ "anchor": "center",
+ "fps": 30,
+ "seed": 3,
+ "ramps": {
+  "candy": {
+   "colors": [
+    "#9a4a66",
+    "#e48ea6",
+    "#ffc9d5",
+    "#fff4f7"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "pop",
+   "ticks": 3,
+   "fast": true,
+   "events": [
+    "reveal"
+   ]
+  },
+  {
+   "name": "sparkle",
+   "ticks": 21
+  }
+ ],
+ "layers": [
+  {
+   "id": "flash",
+   "kind": "shape",
+   "during": [
+    "pop"
+   ],
+   "ramp": "candy",
+   "role": "flash",
+   "value": 0.85,
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "r": {
+     "keys": [
+      [
+       0,
+       8
+      ],
+      [
+       1,
+       11
+      ]
+     ]
+    },
+    "inner": 0.35,
+    "rotate": 45
+   }
+  },
+  {
+   "id": "ring",
+   "kind": "shape",
+   "during": [
+    "pop",
+    "sparkle"
+   ],
+   "ramp": "candy",
+   "role": "flash",
+   "shape": {
+    "sdf": "ring",
+    "r": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       0.17,
+       9
+      ],
+      [
+       1,
+       12
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.17,
+       2
+      ],
+      [
+       1,
+       1.5
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.8
+     ],
+     [
+      0.4,
+      0.55
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.15,
+    "noise": "angular",
+    "scale": 10,
+    "bias": 0.3,
+    "amount": 0.9,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "sparkles",
+   "kind": "particles",
+   "during": [
+    "pop",
+    "sparkle"
+   ],
+   "ramp": "candy",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "burst",
+    "count": [
+     8,
+     9
+    ],
+    "from": {
+     "area": "ring",
+     "r": 3
+    }
+   },
+   "velocity": {
+    "speed": [
+     2.4,
+     3.4
+    ],
+    "angle": "out"
+   },
+   "drag": 0.11,
+   "life": [
+    13,
+    18
+   ],
+   "stamp": {
+    "kind": "star",
+    "size": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       0.5,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.95
+     ],
+     [
+      0.5,
+      0.7
+     ],
+     [
+      1,
+      0.45
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "ring",
+  "sparkles",
+  "flash"
+ ],
+ "outputs": {
+  "emissive": [
+   "flash"
+  ]
+ }
+}

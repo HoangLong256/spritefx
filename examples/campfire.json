@@ -1,0 +1,121 @@
+{
+  "name": "campfire",
+  "type": "fire",
+  "canvas": "auto",
+  "anchor": "bottom",
+  "fps": 30,
+  "seed": 2,
+  "loop": true,
+  "palette": "default",
+  "ramps": {
+    "flame": {
+      "colors": [
+        "#9e2835",
+        "#e43b44",
+        "#f77622",
+        "#feae34",
+        "#fee761",
+        "#ffffff"
+      ]
+    }
+  },
+  "phases": [
+    {
+      "name": "burn",
+      "ticks": 40
+    }
+  ],
+  "layers": [
+    {
+      "id": "fire",
+      "kind": "field",
+      "ramp": "flame",
+      "role": "fire",
+      "mask": {
+        "sdf": "ellipse",
+        "rx": 8,
+        "ry": 15,
+        "at": [
+          0,
+          -12
+        ]
+      },
+      "noise": {
+        "kind": "fbm",
+        "scale": 6,
+        "octaves": 3,
+        "speed": 0.06
+      },
+      "flow": 1,
+      "falloff_from": "bottom",
+      "radial_falloff": 0.9,
+      "threshold": 0.22,
+      "value": 1.5
+    },
+    {
+      "id": "embers",
+      "kind": "particles",
+      "ramp": "flame",
+      "tag": "ember",
+      "emit": {
+        "mode": "stream",
+        "rate": 0.1,
+        "from": {
+          "area": "rect",
+          "size": [
+            8,
+            2
+          ],
+          "at": [
+            0,
+            -12
+          ]
+        }
+      },
+      "velocity": {
+        "speed": [
+          0.4,
+          0.7
+        ],
+        "angle": [
+          255,
+          285
+        ]
+      },
+      "wiggle": {
+        "amp": 0.6,
+        "freq": 0.15
+      },
+      "life": [
+        14,
+        22
+      ],
+      "stamp": {
+        "kind": "dot",
+        "size": 1
+      },
+      "value_over_life": {
+        "keys": [
+          [
+            0,
+            0.95
+          ],
+          [
+            1,
+            0.3
+          ]
+        ]
+      },
+      "loop": "analytic"
+    }
+  ],
+  "order": [
+    "fire",
+    "embers"
+  ],
+  "outputs": {
+    "emissive": [
+      "fire"
+    ]
+  }
+}
