@@ -20,16 +20,12 @@ Explosions, slashes, smoke, fire, water and magic as palette-locked sprite sheet
 
 ---
 
-Procedural effects usually look procedural: soft alpha gradients, noisy blobs, a hundred colours, a glow that smears into everything. Hand-drawn pixel VFX look different. They have a dark contrast frame, a one-frame white flash, a hot core with a cool rim, and smoke that erodes into crescents and dots instead of fading out.
+Most procedural effects look procedural: soft alpha, noisy blobs, too many colours. **spritefx draws like a pixel artist**, with a dark contrast frame, a one-frame flash, a hot core with a cool rim, and smoke that erodes away instead of fading. Then it **audits every frame** and fails the build when the effect breaks the craft.
 
-**spritefx encodes that craft.** You describe an effect as layers on a timeline. The engine simulates it tick by tick, maps every value to a step of a palette ramp, composites in *palette space*, cleans up stray pixels, and then **audits the result**. It fails the build if the flash comes after the peak, the smoke ends before the fire, edges blink A-B-A, or the effect can't be read on a light background.
-
-- 🎨 **Palette-locked.** Every pixel is a palette colour, alpha is 0 or 255, and there's an indexed PNG for palette swaps.
-- 🧪 **Real simulations underneath.** Particles, SDF shapes, loopable noise, Doom fire, grid smoke (stable fluids + MacCormack) and FLIP water, all reduced to clean pixel clusters.
-- 🔍 **22 craft checks.** Envelope, flash order, flicker, orphans, speckle, loop seams, readability on dark/mid/light ground, a WCAG flash-rate warning and more.
-- 🎮 **Engine-ready.** Uniform strip, Aseprite-style JSON with per-frame durations, phase tags, gameplay events (`hit`, `shake:3`) and the anchor point, plus additive and emissive layers for glow.
-- 🔁 **Deterministic.** The same spec always gives byte-identical PNGs, so a spec diffs and reviews like any other code.
-- 🤖 **Agent-native.** It ships as a [Claude Code](https://claude.com/claude-code) skill: [install it with one command](#-use-it-with-claude-code), ask for *"a frost nova, 48 px, one-shot"*, and Claude writes the spec while the scripts do the drawing.
+- 🎨 **Palette-locked.** Every pixel is a palette colour, with no soft alpha.
+- 🔍 **22 craft checks.** Flash order, flicker, stray pixels, loop seams, readability.
+- 🎮 **Engine-ready.** Sprite strip plus JSON with timings, tags, events and anchor.
+- 🤖 **Claude Code skill.** [One command to install](#-use-it-with-claude-code); then just ask for an effect.
 
 ## ✨ Use it with Claude Code
 
