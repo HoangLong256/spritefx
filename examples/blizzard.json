@@ -1,0 +1,422 @@
+{
+ "name": "blizzard",
+ "type": "snow",
+ "canvas": [
+  128,
+  80
+ ],
+ "anchor": "center",
+ "fps": 30,
+ "seed": 7,
+ "loop": true,
+ "ramps": {
+  "snow": {
+   "colors": [
+    "#3e4d6e",
+    "#63789e",
+    "#9db3d6",
+    "#d2e0f2",
+    "#ffffff"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "storm",
+   "ticks": 60
+  }
+ ],
+ "layers": [
+  {
+   "id": "far",
+   "kind": "particles",
+   "ramp": "snow",
+   "tag": "snow",
+   "loop": "analytic",
+   "emit": {
+    "mode": "stream",
+    "rate": 4.0,
+    "from": {
+     "area": "rect",
+     "size": [
+      96.04,
+      60.79
+     ],
+     "at": [
+      -11.98,
+      -6.6
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.75,
+     1.0
+    ],
+    "angle": 28.0,
+    "spread": 6
+   },
+   "wiggle": {
+    "amp": 0.4,
+    "freq": 0.05
+   },
+   "life": [
+    18,
+    26
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": 1
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.22
+     ],
+     [
+      0.2,
+      0.38
+     ],
+     [
+      0.8,
+      0.38
+     ],
+     [
+      1,
+      0.22
+     ]
+    ]
+   }
+  },
+  {
+   "id": "drift",
+   "kind": "particles",
+   "ramp": "snow",
+   "tag": "snow",
+   "loop": "analytic",
+   "emit": {
+    "mode": "stream",
+    "rate": 0.4,
+    "from": {
+     "area": "rect",
+     "size": [
+      62.43,
+      41.99
+     ],
+     "at": [
+      -14.54,
+      -7.96
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     2.1,
+     2.6
+    ],
+    "angle": 26.0,
+    "spread": 4
+   },
+   "wiggle": {
+    "amp": 0.5,
+    "freq": 0.04
+   },
+   "life": [
+    14,
+    18
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.25,
+       14
+      ],
+      [
+       0.6,
+       12
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     "ease": "inout"
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      0.25,
+      1.15
+     ],
+     [
+      0.7,
+      1.1
+     ],
+     [
+      1,
+      0.95
+     ]
+    ]
+   }
+  },
+  {
+   "id": "mid",
+   "kind": "particles",
+   "ramp": "snow",
+   "tag": "snow",
+   "loop": "analytic",
+   "emit": {
+    "mode": "stream",
+    "rate": 3.6,
+    "from": {
+     "area": "rect",
+     "size": [
+      86.8,
+      54.94
+     ],
+     "at": [
+      -15.6,
+      -8.53
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     1.5,
+     1.9
+    ],
+    "angle": 28.0,
+    "spread": 6
+   },
+   "wiggle": {
+    "amp": 0.6,
+    "freq": 0.06
+   },
+   "life": [
+    12,
+    18
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       0.15,
+       2
+      ],
+      [
+       0.85,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.45
+     ],
+     [
+      0.2,
+      0.7
+     ],
+     [
+      0.8,
+      0.7
+     ],
+     [
+      1,
+      0.45
+     ]
+    ]
+   }
+  },
+  {
+   "id": "gust",
+   "kind": "particles",
+   "ramp": "snow",
+   "tag": "snow",
+   "loop": "analytic",
+   "emit": {
+    "mode": "stream",
+    "rate": 0.1,
+    "from": {
+     "area": "rect",
+     "size": [
+      67.07,
+      53.43
+     ],
+     "at": [
+      -24.47,
+      -8.29
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     3.2,
+     3.6
+    ],
+    "angle": 18,
+    "spread": 6
+   },
+   "wiggle": {
+    "amp": 1.6,
+    "freq": 0.05
+   },
+   "life": [
+    11,
+    14
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": 1
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.6
+     ],
+     [
+      0.3,
+      0.75
+     ],
+     [
+      0.7,
+      0.75
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   }
+  },
+  {
+   "id": "streaks",
+   "kind": "trail",
+   "of": "gust",
+   "length": 9,
+   "tag": "snow",
+   "value_decay": {
+    "keys": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      0.7
+     ]
+    ],
+    "ease": "out"
+   }
+  },
+  {
+   "id": "front",
+   "kind": "particles",
+   "ramp": "snow",
+   "tag": "snow",
+   "loop": "analytic",
+   "emit": {
+    "mode": "stream",
+    "rate": 1.8,
+    "from": {
+     "area": "rect",
+     "size": [
+      83.21,
+      52.1
+     ],
+     "at": [
+      -16.39,
+      -8.95
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     2.4,
+     3.0
+    ],
+    "angle": 28.0,
+    "spread": 6
+   },
+   "wiggle": {
+    "amp": 0.9,
+    "freq": 0.07
+   },
+   "life": [
+    9,
+    12
+   ],
+   "stamp": {
+    "kind": "dot",
+    "size": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       0.15,
+       3
+      ],
+      [
+       0.85,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.65
+     ],
+     [
+      0.15,
+      0.95
+     ],
+     [
+      0.85,
+      0.95
+     ],
+     [
+      1,
+      0.65
+     ]
+    ]
+   }
+  }
+ ],
+ "outputs": {
+  "add": []
+ }
+}

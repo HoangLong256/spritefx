@@ -1,0 +1,1230 @@
+{
+ "name": "laser_beam",
+ "type": "aura",
+ "canvas": [
+  128,
+  40
+ ],
+ "anchor": [
+  16,
+  20
+ ],
+ "fps": 30,
+ "seed": 7,
+ "loop": true,
+ "ramps": {
+  "laser": {
+   "colors": [
+    "#3c0a2c",
+    "#8e1544",
+    "#e0305f",
+    "#ff7a9c",
+    "#ffd2df",
+    "#ffffff"
+   ]
+  },
+  "band": {
+   "colors": [
+    "#e0305f",
+    "#ff7a9c",
+    "#ffd2df"
+   ]
+  },
+  "soot": {
+   "colors": [
+    "#3a2638",
+    "#5e4458",
+    "#8c7084"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "charge",
+   "ticks": 14
+  },
+  {
+   "name": "shoot",
+   "ticks": 3,
+   "fast": true,
+   "events": [
+    "fire"
+   ]
+  },
+  {
+   "name": "beam",
+   "ticks": 36
+  },
+  {
+   "name": "thin",
+   "ticks": 6
+  },
+  {
+   "name": "snap",
+   "ticks": 2,
+   "fast": true,
+   "events": [
+    "stop"
+   ]
+  },
+  {
+   "name": "fade",
+   "ticks": 10
+  }
+ ],
+ "sections": {
+  "start": [
+   "charge",
+   "shoot"
+  ],
+  "loop": [
+   "beam"
+  ],
+  "end": [
+   "thin",
+   "snap",
+   "fade"
+  ]
+ },
+ "layers": [
+  {
+   "id": "gather_ring",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "charge"
+   ],
+   "shape": {
+    "sdf": "ring",
+    "r": {
+     "keys": [
+      [
+       0,
+       12
+      ],
+      [
+       1,
+       3.5
+      ]
+     ],
+     "ease": "linear"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       1.2
+      ],
+      [
+       1,
+       2.6
+      ]
+     ],
+     "ease": "linear"
+    },
+    "at": [
+     0.5,
+     0.5
+    ]
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.3
+     ],
+     [
+      1,
+      0.75
+     ]
+    ],
+    "ease": "in"
+   }
+  },
+  {
+   "id": "motes",
+   "kind": "particles",
+   "ramp": "laser",
+   "tag": "sparkle",
+   "during": [
+    "charge"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": {
+     "keys": [
+      [
+       0,
+       1.1
+      ],
+      [
+       0.55,
+       0.9
+      ],
+      [
+       0.62,
+       0
+      ]
+     ],
+     "ease": "linear"
+    },
+    "from": {
+     "area": "ring",
+     "r": [
+      11,
+      14
+     ],
+     "at": [
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     -1.2,
+     -0.95
+    ],
+    "angle": "out"
+   },
+   "life": [
+    11,
+    13
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.5,
+       5
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     "ease": "linear"
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.55
+     ],
+     [
+      0.8,
+      0.9
+     ],
+     [
+      1,
+      0.95
+     ]
+    ],
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "orb_charge",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "charge"
+   ],
+   "shape": {
+    "sdf": "circle",
+    "r": {
+     "keys": [
+      [
+       0,
+       1.5
+      ],
+      [
+       1,
+       5.2
+      ]
+     ],
+     "ease": "inout"
+    },
+    "at": [
+     0.5,
+     0.5
+    ]
+   },
+   "value_mode": "radial",
+   "edge": 0.3,
+   "value": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      1,
+      1.15
+     ]
+    ],
+    "ease": "in"
+   }
+  },
+  {
+   "id": "halo_shoot",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "shoot"
+   ],
+   "shape": {
+    "sdf": "beam",
+    "length": {
+     "keys": [
+      [
+       0,
+       20
+      ],
+      [
+       1,
+       100
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       5
+      ],
+      [
+       1,
+       11
+      ]
+     ],
+     "ease": "out"
+    },
+    "at": [
+     0,
+     0.5
+    ]
+   },
+   "value": 0.28
+  },
+  {
+   "id": "band_shoot",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "shoot"
+   ],
+   "shape": {
+    "sdf": "beam",
+    "length": {
+     "keys": [
+      [
+       0,
+       24
+      ],
+      [
+       1,
+       100
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       7
+      ]
+     ],
+     "ease": "out"
+    },
+    "at": [
+     0,
+     0.5
+    ]
+   },
+   "value": 0.6
+  },
+  {
+   "id": "core_shoot",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "shoot"
+   ],
+   "shape": {
+    "sdf": "beam",
+    "length": {
+     "keys": [
+      [
+       0,
+       30
+      ],
+      [
+       1,
+       101
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": 3,
+    "at": [
+     0,
+     0.5
+    ]
+   },
+   "value": 1.25
+  },
+  {
+   "id": "orb_shoot",
+   "kind": "shape",
+   "ramp": "laser",
+   "role": "flash",
+   "during": [
+    "shoot"
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "r": {
+     "keys": [
+      [
+       0,
+       11
+      ],
+      [
+       1,
+       8
+      ]
+     ],
+     "ease": "out"
+    },
+    "inner": 0.24,
+    "at": [
+     0.5,
+     0.5
+    ]
+   },
+   "value_mode": "radial",
+   "edge": 0.15,
+   "value": 1.2
+  },
+  {
+   "id": "halo",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "beam",
+    "thin"
+   ],
+   "shape": {
+    "sdf": "beam",
+    "length": 100,
+    "width": {
+     "keys": [
+      [
+       0,
+       11
+      ],
+      [
+       0.8536585365853658,
+       11
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     "ease": "linear"
+    },
+    "at": [
+     0,
+     0.5
+    ]
+   },
+   "value": 0.1
+  },
+  {
+   "id": "red",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "beam",
+    "thin"
+   ],
+   "shape": {
+    "sdf": "beam",
+    "length": 100,
+    "width": {
+     "keys": [
+      [
+       0,
+       9
+      ],
+      [
+       0.8536585365853658,
+       9
+      ],
+      [
+       1,
+       0.8
+      ]
+     ],
+     "ease": "linear"
+    },
+    "at": [
+     0,
+     0.5
+    ]
+   },
+   "value": 0.25
+  },
+  {
+   "id": "band",
+   "kind": "cycle",
+   "ramp": "band",
+   "during": [
+    "beam",
+    "thin"
+   ],
+   "field": {
+    "polar": {
+     "swirl": 0,
+     "rings": 9
+    },
+    "noise": {
+     "kind": "perlin",
+     "scale": 11
+    }
+   },
+   "mask": {
+    "sdf": "beam",
+    "length": 100,
+    "width": {
+     "keys": [
+      [
+       0,
+       7
+      ],
+      [
+       0.8536585365853658,
+       7
+      ],
+      [
+       1,
+       0.6
+      ]
+     ],
+     "ease": "linear"
+    },
+    "at": [
+     0,
+     0.5
+    ]
+   },
+   "speed": -0.5
+  },
+  {
+   "id": "core",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "beam",
+    "thin",
+    "snap"
+   ],
+   "shape": {
+    "sdf": "beam",
+    "length": 101,
+    "width": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.813953488372093,
+       3
+      ],
+      [
+       0.9534883720930233,
+       1.2
+      ],
+      [
+       1,
+       1.2
+      ]
+     ],
+     "ease": "in"
+    },
+    "at": [
+     0,
+     0.5
+    ]
+   },
+   "value": 1.25,
+   "break_up": {
+    "after": 0.9534883720930233,
+    "noise": "worley",
+    "scale": 5,
+    "bias": 0,
+    "amount": 1.2
+   }
+  },
+  {
+   "id": "orb",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "beam",
+    "thin"
+   ],
+   "shape": {
+    "sdf": "circle",
+    "r": {
+     "keys": [
+      [
+       0,
+       5.2
+      ],
+      [
+       0.8536585365853658,
+       5.2
+      ],
+      [
+       1,
+       2.5
+      ]
+     ],
+     "ease": "linear"
+    },
+    "at": [
+     0.5,
+     0.5
+    ]
+   },
+   "value_mode": "radial",
+   "edge": 0.4,
+   "value": 1.2
+  },
+  {
+   "id": "flare",
+   "kind": "shape",
+   "ramp": "laser",
+   "during": [
+    "beam"
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "r": 11,
+    "inner": 0.26,
+    "at": [
+     0.5,
+     0.5
+    ],
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       87.5
+      ]
+     ],
+     "ease": "linear"
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.25,
+   "value": 1.15
+  },
+  {
+   "id": "impact",
+   "kind": "field",
+   "ramp": "laser",
+   "during": [
+    "beam",
+    "thin"
+   ],
+   "noise": {
+    "kind": "worley",
+    "scale": 4,
+    "speed": 0.05,
+    "invert": true,
+    "loop_ticks": 36
+   },
+   "mask": {
+    "sdf": "ellipse",
+    "rx": {
+     "keys": [
+      [
+       0,
+       6
+      ],
+      [
+       0.8536585365853658,
+       6
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     "ease": "linear"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       9.5
+      ],
+      [
+       0.8536585365853658,
+       9.5
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     "ease": "linear"
+    },
+    "at": [
+     101,
+     0.5
+    ]
+   },
+   "radial_falloff": 0.8,
+   "value": 1.6,
+   "threshold": {
+    "keys": [
+     [
+      0,
+      0.0
+     ],
+     [
+      0.8536585365853658,
+      0.0
+     ],
+     [
+      1,
+      0.3
+     ]
+    ],
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "impact_flare",
+   "kind": "shape",
+   "ramp": "laser",
+   "role": "flash",
+   "during": [
+    "beam"
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "r": 12,
+    "inner": 0.22,
+    "at": [
+     100,
+     0.5
+    ],
+    "rotate": {
+     "keys": [
+      [
+       0,
+       0
+      ],
+      [
+       1,
+       -87.5
+      ]
+     ],
+     "ease": "linear"
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.3,
+   "value": 1.15
+  },
+  {
+   "id": "sparks",
+   "kind": "particles",
+   "ramp": "laser",
+   "tag": "sparkle",
+   "during": [
+    "beam"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": 0.55,
+    "from": {
+     "area": "point",
+     "at": [
+      99,
+      0.5
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     1.1,
+     2.2
+    ],
+    "angle": 180,
+    "spread": 150
+   },
+   "drag": 0.08,
+   "gravity": 0.07,
+   "life": [
+    6,
+    11
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     "ease": "linear"
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.85
+     ],
+     [
+      1,
+      0.3
+     ]
+    ],
+    "ease": "in"
+   }
+  },
+  {
+   "id": "smoke",
+   "kind": "particles",
+   "ramp": "soot",
+   "role": "smoke",
+   "during": [
+    "beam"
+   ],
+   "min_cluster": 4,
+   "emit": {
+    "mode": "stream",
+    "rate": 0.15,
+    "from": {
+     "area": "rect",
+     "size": [
+      4,
+      6
+     ],
+     "at": [
+      98,
+      -4.5
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.2,
+     0.4
+    ],
+    "angle": 250,
+    "spread": 30
+   },
+   "wind": [
+    -0.12,
+    -0.3
+   ],
+   "drag": 0.05,
+   "life": [
+    20,
+    26
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       1.2
+      ],
+      [
+       0.35,
+       2.6
+      ],
+      [
+       1,
+       2.6
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "dots"
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.95
+     ],
+     [
+      1,
+      0.4
+     ]
+    ],
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "smoke_end",
+   "kind": "particles",
+   "ramp": "soot",
+   "role": "smoke",
+   "during": [
+    "thin",
+    "snap",
+    "fade"
+   ],
+   "min_cluster": 4,
+   "emit": {
+    "mode": "stream",
+    "rate": {
+     "keys": [
+      [
+       0,
+       0.5
+      ],
+      [
+       0.3,
+       0.5
+      ],
+      [
+       0.35,
+       0
+      ]
+     ],
+     "ease": "linear"
+    },
+    "from": {
+     "area": "rect",
+     "size": [
+      4,
+      8
+     ],
+     "at": [
+      98,
+      -5.5
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.2,
+     0.4
+    ],
+    "angle": 250,
+    "spread": 30
+   },
+   "wind": [
+    -0.12,
+    -0.3
+   ],
+   "drag": 0.05,
+   "life": [
+    9,
+    15
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       2.0
+      ],
+      [
+       0.3,
+       2.8
+      ],
+      [
+       1,
+       2.8
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "dots"
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.8
+     ],
+     [
+      1,
+      0.4
+     ]
+    ],
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "flash",
+   "kind": "shape",
+   "ramp": "laser",
+   "role": "flash",
+   "during": [
+    "snap",
+    "fade"
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "r": {
+     "keys": [
+      [
+       0,
+       10
+      ],
+      [
+       0.15,
+       11
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     "ease": "out"
+    },
+    "inner": 0.24,
+    "at": [
+     0.5,
+     0.5
+    ],
+    "rotate": 45
+   },
+   "value_mode": "radial",
+   "edge": 0.1,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.2
+     ],
+     [
+      0.3,
+      1.0
+     ],
+     [
+      1,
+      0.45
+     ]
+    ],
+    "ease": "out"
+   },
+   "break_up": {
+    "after": 0.6,
+    "noise": "angular",
+    "amount": 1,
+    "bias": 2
+   }
+  },
+  {
+   "id": "end_sparks",
+   "kind": "particles",
+   "ramp": "laser",
+   "tag": "sparkle",
+   "during": [
+    "snap",
+    "fade"
+   ],
+   "emit": {
+    "mode": "burst",
+    "count": [
+     6,
+     7
+    ],
+    "from": {
+     "area": "circle",
+     "r": 1.5,
+     "at": [
+      0.5,
+      0.5
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     1.2,
+     2.2
+    ],
+    "angle": "out"
+   },
+   "drag": 0.18,
+   "life": [
+    6,
+    9
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     "ease": "linear"
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.8
+     ],
+     [
+      1,
+      0.2
+     ]
+    ],
+    "ease": "in"
+   }
+  },
+  {
+   "id": "wall_sparks",
+   "kind": "particles",
+   "ramp": "laser",
+   "tag": "sparkle",
+   "during": [
+    "snap",
+    "fade"
+   ],
+   "emit": {
+    "mode": "burst",
+    "count": [
+     4,
+     5
+    ],
+    "from": {
+     "area": "point",
+     "at": [
+      99,
+      0.5
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.9,
+     1.8
+    ],
+    "angle": 180,
+    "spread": 140
+   },
+   "drag": 0.12,
+   "gravity": 0.07,
+   "life": [
+    6,
+    9
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     "ease": "linear"
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.7
+     ],
+     [
+      1,
+      0.2
+     ]
+    ],
+    "ease": "in"
+   }
+  }
+ ],
+ "order": [
+  "smoke",
+  "smoke_end",
+  "gather_ring",
+  "motes",
+  "orb_charge",
+  "halo_shoot",
+  "band_shoot",
+  "core_shoot",
+  "halo",
+  "red",
+  "band",
+  "core",
+  "impact",
+  "impact_flare",
+  "sparks",
+  "wall_sparks",
+  "orb",
+  "flare",
+  "orb_shoot",
+  "flash",
+  "end_sparks"
+ ],
+ "outputs": {
+  "emissive": [
+   "core",
+   "core_shoot",
+   "orb",
+   "orb_charge",
+   "orb_shoot",
+   "flare",
+   "flash",
+   "impact"
+  ]
+ }
+}

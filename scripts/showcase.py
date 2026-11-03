@@ -27,6 +27,8 @@ TILE_REST = 18  # ticks of empty ground after a one-shot in its tile
 HERO = ["slash", "explosion", "demon_burst", "summon", "campfire", "water_splash", "hearts"]
 GALLERY = ["explosion", "meteor_strike", "black_hole", "frost_nova", "slash", "summon",
            "fire_tornado", "lightning_strike", "portal", "demon_burst", "water_splash", "hearts",
+           "firework", "hex_barrier_hit", "rocket_thruster", "laser_beam", "ground_slam", "slime_splat", "confetti",
+           "blizzard", "will_o_wisp", "petal_gust",
            "smoke_burst", "smoke_plume", "campfire", "heal_potion", "hit_spark", "smoke_puff"]
 HERO_TICKS = 120  # 4 s: a multiple of every hero loop (campfire's 40 ticks)
 HERO_PERIODS = (40, 60, 120)  # a one-shot replays on the shortest that leaves it a rest

@@ -95,13 +95,31 @@ git -C ~/.claude/skills/spritefx pull
 <td align="center"><img src="docs/gallery/hearts.gif" width="276"><br><code>hearts</code> · <code>heart</code> SDF</td>
 </tr>
 <tr>
-<td align="center"><img src="docs/gallery/smoke_burst.gif" width="276"><br><code>smoke_burst</code> · grid smoke sim</td>
-<td align="center"><img src="docs/gallery/smoke_plume.gif" width="276"><br><code>smoke_plume</code> · grid smoke, loop</td>
-<td align="center"><img src="docs/gallery/campfire.gif" width="276"><br><code>campfire</code> · noise flame, loop</td>
+<td align="center"><img src="docs/gallery/firework.gif" width="276"><br><code>firework</code></td>
+<td align="center"><img src="docs/gallery/hex_barrier_hit.gif" width="276"><br><code>hex_barrier_hit</code></td>
+<td align="center"><img src="docs/gallery/rocket_thruster.gif" width="276"><br><code>rocket_thruster</code></td>
 </tr>
 <tr>
+<td align="center"><img src="docs/gallery/laser_beam.gif" width="276"><br><code>laser_beam</code></td>
+<td align="center"><img src="docs/gallery/ground_slam.gif" width="276"><br><code>ground_slam</code></td>
+<td align="center"><img src="docs/gallery/slime_splat.gif" width="276"><br><code>slime_splat</code></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/gallery/confetti.gif" width="276"><br><code>confetti</code></td>
+<td align="center"><img src="docs/gallery/blizzard.gif" width="276"><br><code>blizzard</code></td>
+<td align="center"><img src="docs/gallery/will_o_wisp.gif" width="276"><br><code>will_o_wisp</code></td>
+</tr>
+<tr>
+<td align="center"><img src="docs/gallery/petal_gust.gif" width="276"><br><code>petal_gust</code></td>
+<td align="center"><img src="docs/gallery/smoke_burst.gif" width="276"><br><code>smoke_burst</code> · grid smoke sim</td>
+<td align="center"><img src="docs/gallery/smoke_plume.gif" width="276"><br><code>smoke_plume</code> · grid smoke, loop</td>
+</tr>
+<tr>
+<td align="center"><img src="docs/gallery/campfire.gif" width="276"><br><code>campfire</code> · noise flame, loop</td>
 <td align="center"><img src="docs/gallery/heal_potion.gif" width="276"><br><code>heal_potion</code></td>
 <td align="center"><img src="docs/gallery/hit_spark.gif" width="276"><br><code>hit_spark</code></td>
+</tr>
+<tr>
 <td align="center"><img src="docs/gallery/smoke_puff.gif" width="276"><br><code>smoke_puff</code></td>
 </tr>
 </table>
@@ -218,7 +236,7 @@ python -m fx palette-check <palette>
 
 ```
 fx/            the package: spec, timeline, layer engines (fx/layers/), compositor, cleanup, audits, sheets
-examples/      19 effect specs plus the demo scene's 5 (witch_summon/), all building with 0 faults
+examples/      29 effect specs plus the demo scene's 5 (witch_summon/), all building with 0 faults
 references/    spec.md (every field), craft.md (the art rules), verify.md (every check)
 docs/          ARCHITECTURE.md (module contract) and the README media
 scripts/       showcase.py rebuilds the README GIFs from built examples
