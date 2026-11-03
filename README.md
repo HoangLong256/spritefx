@@ -76,8 +76,18 @@ git -C ~/.claude/skills/spritefx pull
 <table>
 <tr>
 <td align="center"><img src="docs/gallery/explosion.gif" width="276"><br><code>explosion</code></td>
+<td align="center"><img src="docs/gallery/meteor_strike.gif" width="276"><br><code>meteor_strike</code> · trail + crater + ground fire</td>
+<td align="center"><img src="docs/gallery/black_hole.gif" width="276"><br><code>black_hole</code> · start / loop / end</td>
+</tr>
+<tr>
+<td align="center"><img src="docs/gallery/frost_nova.gif" width="276"><br><code>frost_nova</code></td>
 <td align="center"><img src="docs/gallery/slash.gif" width="276"><br><code>slash</code></td>
 <td align="center"><img src="docs/gallery/summon.gif" width="276"><br><code>summon</code> · start / loop / end</td>
+</tr>
+<tr>
+<td align="center"><img src="docs/gallery/fire_tornado.gif" width="276"><br><code>fire_tornado</code> · seamless loop</td>
+<td align="center"><img src="docs/gallery/lightning_strike.gif" width="276"><br><code>lightning_strike</code> · branching bolt</td>
+<td align="center"><img src="docs/gallery/portal.gif" width="276"><br><code>portal</code> · start / loop / end</td>
 </tr>
 <tr>
 <td align="center"><img src="docs/gallery/demon_burst.gif" width="276"><br><code>demon_burst</code></td>
@@ -96,7 +106,7 @@ git -C ~/.claude/skills/spritefx pull
 </tr>
 </table>
 
-<sub>Shown at 3×; the real sprites are 26–90 px. Every spec is in <a href="examples/"><code>examples/</code></a>.</sub>
+<sub>Shown at 2–3×; the real sprites are 26–112 px. Every spec is in <a href="examples/"><code>examples/</code></a>.</sub>
 
 ## Demo: the witch summons a devil… and gets a bunny
 
@@ -208,7 +218,7 @@ python -m fx palette-check <palette>
 
 ```
 fx/            the package: spec, timeline, layer engines (fx/layers/), compositor, cleanup, audits, sheets
-examples/      13 effect specs plus the demo scene's 5 (witch_summon/), all building with 0 faults
+examples/      19 effect specs plus the demo scene's 5 (witch_summon/), all building with 0 faults
 references/    spec.md (every field), craft.md (the art rules), verify.md (every check)
 docs/          ARCHITECTURE.md (module contract) and the README media
 scripts/       showcase.py rebuilds the README GIFs from built examples

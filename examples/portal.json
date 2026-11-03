@@ -1,0 +1,613 @@
+{
+ "name": "portal",
+ "type": "portal",
+ "canvas": "auto",
+ "anchor": "center",
+ "fps": 30,
+ "seed": 21,
+ "loop": true,
+ "ramps": {
+  "void": {
+   "colors": [
+    "#140a30",
+    "#2a1668",
+    "#4b2aa8",
+    "#7e52e8",
+    "#46c8dc",
+    "#c8fff6"
+   ]
+  },
+  "rim": {
+   "colors": [
+    "#4b2aa8",
+    "#8e62f0",
+    "#cdb8ff",
+    "#ffffff"
+   ]
+  },
+  "teal": {
+   "colors": [
+    "#1f6f88",
+    "#46c8dc",
+    "#a0f4ee",
+    "#ffffff"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "flash",
+   "ticks": 2,
+   "fast": true,
+   "events": [
+    "open"
+   ]
+  },
+  {
+   "name": "tear",
+   "ticks": 4,
+   "fast": true
+  },
+  {
+   "name": "open",
+   "ticks": 11
+  },
+  {
+   "name": "swirl",
+   "ticks": 40
+  },
+  {
+   "name": "implode",
+   "ticks": 8,
+   "fast": true
+  },
+  {
+   "name": "pop",
+   "ticks": 2,
+   "fast": true,
+   "events": [
+    "close"
+   ]
+  },
+  {
+   "name": "fade",
+   "ticks": 6
+  }
+ ],
+ "sections": {
+  "start": [
+   "flash",
+   "tear",
+   "open"
+  ],
+  "loop": [
+   "swirl"
+  ],
+  "end": [
+   "implode",
+   "pop",
+   "fade"
+  ]
+ },
+ "layers": [
+  {
+   "id": "vortex_tear",
+   "kind": "field",
+   "ramp": "void",
+   "during": [
+    "tear"
+   ],
+   "polar": {
+    "swirl": 2,
+    "rings": 1.6,
+    "speed": 0.05
+   },
+   "noise": {
+    "kind": "perlin",
+    "scale": 12,
+    "speed": 0.02,
+    "loop_ticks": 40
+   },
+   "mask": {
+    "sdf": "ellipse",
+    "rx": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       8
+      ]
+     ],
+     "ease": "out"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       14
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "radial_falloff": 0.75,
+   "value": 1.15
+  },
+  {
+   "id": "vortex_open",
+   "kind": "field",
+   "ramp": "void",
+   "during": [
+    "open"
+   ],
+   "polar": {
+    "swirl": 2,
+    "rings": 1.6,
+    "speed": 0.05
+   },
+   "noise": {
+    "kind": "perlin",
+    "scale": 12,
+    "speed": 0.02,
+    "loop_ticks": 40
+   },
+   "mask": {
+    "sdf": "ellipse",
+    "rx": {
+     "keys": [
+      [
+       0,
+       8
+      ],
+      [
+       1,
+       17
+      ]
+     ],
+     "ease": "out"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       14
+      ],
+      [
+       1,
+       27
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "radial_falloff": 0.75,
+   "value": 1.15
+  },
+  {
+   "id": "vortex",
+   "kind": "field",
+   "ramp": "void",
+   "during": [
+    "swirl"
+   ],
+   "polar": {
+    "swirl": 2,
+    "rings": 1.6,
+    "speed": 0.05
+   },
+   "noise": {
+    "kind": "perlin",
+    "scale": 12,
+    "speed": 0.02,
+    "loop_ticks": 40
+   },
+   "mask": {
+    "sdf": "ellipse",
+    "rx": 17,
+    "ry": 27
+   },
+   "radial_falloff": 0.75,
+   "value": 1.15
+  },
+  {
+   "id": "vortex_implode",
+   "kind": "field",
+   "ramp": "void",
+   "during": [
+    "implode"
+   ],
+   "polar": {
+    "swirl": 2,
+    "rings": 1.6,
+    "speed": 0.05
+   },
+   "noise": {
+    "kind": "perlin",
+    "scale": 12,
+    "speed": 0.02,
+    "loop_ticks": 40
+   },
+   "mask": {
+    "sdf": "ellipse",
+    "rx": {
+     "keys": [
+      [
+       0,
+       17
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     "ease": "in"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       27
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     "ease": "in"
+    }
+   },
+   "radial_falloff": 0.75,
+   "value": 1.15
+  },
+  {
+   "id": "rim_tear",
+   "kind": "shape",
+   "ramp": "rim",
+   "during": [
+    "tear"
+   ],
+   "outline": "dark",
+   "shape": {
+    "sdf": "ellipse",
+    "rx": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       9
+      ]
+     ],
+     "ease": "out"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       15
+      ]
+     ],
+     "ease": "out"
+    },
+    "onion": 2
+   },
+   "value": 1.0
+  },
+  {
+   "id": "rim_open",
+   "kind": "shape",
+   "ramp": "rim",
+   "outline": "dark",
+   "during": [
+    "open"
+   ],
+   "shape": {
+    "sdf": "ellipse",
+    "rx": {
+     "keys": [
+      [
+       0,
+       9
+      ],
+      [
+       1,
+       18
+      ]
+     ],
+     "ease": "out"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       15
+      ],
+      [
+       1,
+       28
+      ]
+     ],
+     "ease": "out"
+    },
+    "onion": 2
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      1,
+      0.8
+     ]
+    ]
+   }
+  },
+  {
+   "id": "rim",
+   "kind": "shape",
+   "ramp": "rim",
+   "outline": "dark",
+   "during": [
+    "swirl"
+   ],
+   "shape": {
+    "sdf": "ellipse",
+    "rx": 18,
+    "ry": 28,
+    "onion": 2
+   },
+   "value": 0.8
+  },
+  {
+   "id": "rim_implode",
+   "kind": "shape",
+   "ramp": "rim",
+   "outline": "dark",
+   "during": [
+    "implode"
+   ],
+   "shape": {
+    "sdf": "ellipse",
+    "rx": {
+     "keys": [
+      [
+       0,
+       18
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     "ease": "in"
+    },
+    "ry": {
+     "keys": [
+      [
+       0,
+       28
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     "ease": "in"
+    },
+    "onion": 2
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.8
+     ],
+     [
+      1,
+      1.0
+     ]
+    ]
+   }
+  },
+  {
+   "id": "flash",
+   "kind": "shape",
+   "ramp": "rim",
+   "role": "flash",
+   "during": [
+    "flash"
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "r": {
+     "keys": [
+      [
+       0,
+       5
+      ],
+      [
+       1,
+       9
+      ]
+     ],
+     "ease": "out"
+    },
+    "inner": 0.22
+   },
+   "value": 1.2
+  },
+  {
+   "id": "pop",
+   "kind": "shape",
+   "ramp": "rim",
+   "role": "flash",
+   "during": [
+    "pop"
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "r": {
+     "keys": [
+      [
+       0,
+       6
+      ],
+      [
+       1,
+       8
+      ]
+     ],
+     "ease": "out"
+    },
+    "inner": 0.22
+   },
+   "value": 1.2
+  },
+  {
+   "id": "motes",
+   "kind": "particles",
+   "ramp": "teal",
+   "tag": "sparkle",
+   "during": [
+    "swirl"
+   ],
+   "emit": {
+    "mode": "stream",
+    "rate": 0.55,
+    "from": {
+     "area": "ring",
+     "r": 31
+    }
+   },
+   "velocity": {
+    "speed": [
+     -0.9,
+     -0.6
+    ],
+    "angle": "out"
+   },
+   "life": [
+    10,
+    16
+   ],
+   "loop": "analytic",
+   "stamp": {
+    "kind": "dot",
+    "size": 1
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.55
+     ],
+     [
+      0.6,
+      1.0
+     ],
+     [
+      1,
+      0.9
+     ]
+    ]
+   }
+  },
+  {
+   "id": "sparks",
+   "kind": "particles",
+   "ramp": "teal",
+   "tag": "sparkle",
+   "during": [
+    "pop",
+    "fade"
+   ],
+   "emit": {
+    "mode": "burst",
+    "count": [
+     7,
+     8
+    ]
+   },
+   "velocity": {
+    "speed": [
+     1.1,
+     1.9
+    ],
+    "angle": "out"
+   },
+   "drag": 0.18,
+   "life": [
+    5,
+    7
+   ],
+   "stamp": {
+    "kind": "star",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.1
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   }
+  }
+ ],
+ "order": [
+  "vortex_tear",
+  "vortex_open",
+  "vortex",
+  "vortex_implode",
+  "rim_tear",
+  "rim_open",
+  "rim",
+  "rim_implode",
+  "motes",
+  "flash",
+  "pop",
+  "sparks"
+ ],
+ "outputs": {
+  "emissive": [
+   "rim",
+   "rim_tear",
+   "rim_open",
+   "rim_implode",
+   "flash",
+   "pop"
+  ]
+ }
+}

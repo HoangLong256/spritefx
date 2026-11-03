@@ -21,12 +21,13 @@ import numpy as np
 from PIL import Image
 
 BG = (0x1a, 0x12, 0x20)
-TILE = 92  # art pixels per gallery tile side (the widest example is 90)
-TILE_ZOOM = 3
+TILE_PX = 276  # gallery tile side in screen pixels, the same for every effect
+TILE_ZOOMS = (3, 2)  # the biggest whole-number zoom at which the effect fits its tile
 TILE_REST = 18  # ticks of empty ground after a one-shot in its tile
 HERO = ["slash", "explosion", "demon_burst", "summon", "campfire", "water_splash", "hearts"]
-GALLERY = ["explosion", "slash", "summon", "demon_burst", "water_splash", "hearts", "smoke_burst",
-           "smoke_plume", "campfire", "heal_potion", "hit_spark", "smoke_puff"]
+GALLERY = ["explosion", "meteor_strike", "black_hole", "frost_nova", "slash", "summon",
+           "fire_tornado", "lightning_strike", "portal", "demon_burst", "water_splash", "hearts",
+           "smoke_burst", "smoke_plume", "campfire", "heal_potion", "hit_spark", "smoke_puff"]
 HERO_TICKS = 120  # 4 s: a multiple of every hero loop (campfire's 40 ticks)
 HERO_PERIODS = (40, 60, 120)  # a one-shot replays on the shortest that leaves it a rest
 HERO_ZOOM = 2  # under 800 px wide: shown 1:1 in a GitHub README, so the pixels stay crisp
@@ -97,9 +98,18 @@ def save_gif(frames: list[np.ndarray], zoom: int, path: Path) -> None:
                    loop=0, disposal=1, optimize=False)
 
 
-def tile(out: Path, name: str) -> list[np.ndarray]:
-    """One effect alone in a square tile, played through once (plus a rest for one-shots)."""
+def tile_zoom(meta: dict) -> int:
+    """3x when the effect fits a 92 px tile, else 2x, so every tile is TILE_PX on screen."""
+    size = max(meta["frames"][0]["w"], meta["frames"][0]["h"])
+    return next((z for z in TILE_ZOOMS if size <= TILE_PX // z), TILE_ZOOMS[-1])
+
+
+def tile(out: Path, name: str) -> tuple[list[np.ndarray], int]:
+    """One effect alone in a square tile, played through once (plus a rest for one-shots),
+    and the zoom to save it at."""
     ticks, meta = load(out, name)
+    zoom = tile_zoom(meta)
+    TILE = TILE_PX // zoom
     x, y = centred(meta, TILE, TILE)
     n = len(ticks) if loops(meta) else len(ticks) + TILE_REST
     frames = []
@@ -110,7 +120,7 @@ def tile(out: Path, name: str) -> list[np.ndarray]:
         if cell is not None:
             place(canvas, cell, x, y)
         frames.append(canvas)
-    return frames
+    return frames, zoom
 
 
 def hero(out: Path) -> list[np.ndarray]:
@@ -154,7 +164,8 @@ def main() -> None:
     out, docs = Path(args.out), Path(args.docs)
     save_gif(hero(out), HERO_ZOOM, docs / "hero.gif")
     for name in GALLERY:
-        save_gif(tile(out, name), TILE_ZOOM, docs / "gallery" / f"{name}.gif")
+        frames, zoom = tile(out, name)
+        save_gif(frames, zoom, docs / "gallery" / f"{name}.gif")
         print(f"gallery/{name}.gif")
     print("hero.gif")
     name, picks = STRIP

@@ -1,0 +1,617 @@
+{
+ "name": "lightning_strike",
+ "type": "bolt",
+ "canvas": [
+  72,
+  110
+ ],
+ "anchor": "bottom",
+ "fps": 30,
+ "seed": 9,
+ "palette": "default",
+ "ramps": {
+  "bolt": {
+   "colors": [
+    "#1b2556",
+    "#3b5dc9",
+    "#41a6f6",
+    "#73eff7",
+    "#ffffff"
+   ]
+  },
+  "scorch": {
+   "colors": [
+    "#141a3a",
+    "#1b2556",
+    "#2b3a7a",
+    "#3b5dc9"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "contrast",
+   "ticks": 1
+  },
+  {
+   "name": "flash",
+   "ticks": 2,
+   "fast": true,
+   "events": [
+    "hit",
+    "shake:4"
+   ]
+  },
+  {
+   "name": "flicker",
+   "ticks": 6,
+   "fast": true
+  },
+  {
+   "name": "impact",
+   "ticks": 8
+  },
+  {
+   "name": "linger",
+   "ticks": 19
+  }
+ ],
+ "layers": [
+  {
+   "id": "dark",
+   "kind": "shape",
+   "during": [
+    "contrast"
+   ],
+   "ramp": "scorch",
+   "value": 0.1,
+   "at": [
+    0,
+    -12
+   ],
+   "shape": {
+    "sdf": "ellipse",
+    "rx": 12,
+    "ry": 5
+   }
+  },
+  {
+   "id": "pool",
+   "kind": "shape",
+   "during": [
+    "flash",
+    "flicker",
+    "impact"
+   ],
+   "ramp": "bolt",
+   "role": "flash",
+   "at": [
+    0,
+    -12
+   ],
+   "shape": {
+    "sdf": "circle",
+    "squash": 0.38,
+    "r": {
+     "keys": [
+      [
+       0,
+       16
+      ],
+      [
+       0.3,
+       12
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.15,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.3
+     ],
+     [
+      0.3,
+      0.95
+     ],
+     [
+      1,
+      0.35
+     ]
+    ],
+    "ease": "out"
+   },
+   "break_up": {
+    "after": 0.4,
+    "noise": "worley",
+    "amount": 1
+   }
+  },
+  {
+   "id": "bolt",
+   "kind": "bolt",
+   "during": [
+    "flash",
+    "flicker"
+   ],
+   "ramp": "bolt",
+   "role": "flash",
+   "flicker": true,
+   "from": [
+    3,
+    -100
+   ],
+   "to": [
+    0,
+    -13
+   ],
+   "roughness": 0.5,
+   "generations": 5,
+   "branches": {
+    "count": 3,
+    "length": [
+     0.18,
+     0.32
+    ],
+    "angle": [
+     25,
+     45
+    ]
+   },
+   "reseed": 2,
+   "blank": [
+    3,
+    1
+   ],
+   "width": 2,
+   "glow": 1,
+   "value": {
+    "keys": [
+     [
+      0,
+      2.2
+     ],
+     [
+      0.3,
+      1.6
+     ],
+     [
+      1,
+      1.0
+     ]
+    ]
+   }
+  },
+  {
+   "id": "glare",
+   "kind": "shape",
+   "during": [
+    "flash",
+    "flicker",
+    "impact"
+   ],
+   "ramp": "bolt",
+   "role": "flash",
+   "at": [
+    0,
+    -13
+   ],
+   "shape": {
+    "sdf": "star",
+    "points": 4,
+    "r": {
+     "keys": [
+      [
+       0,
+       15
+      ],
+      [
+       0.25,
+       10
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     "ease": "out"
+    },
+    "inner": 0.22,
+    "rotate": 0
+   },
+   "value_mode": "radial",
+   "edge": 0.0,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.25
+     ],
+     [
+      0.4,
+      0.95
+     ],
+     [
+      1,
+      0.3
+     ]
+    ],
+    "ease": "out"
+   },
+   "break_up": {
+    "after": 0.5,
+    "noise": "angular",
+    "amount": 1
+   }
+  },
+  {
+   "id": "shock",
+   "kind": "shape",
+   "during": [
+    "flicker",
+    "impact"
+   ],
+   "ramp": "bolt",
+   "at": [
+    0,
+    -12
+   ],
+   "shape": {
+    "sdf": "ring",
+    "squash": 0.38,
+    "r": {
+     "keys": [
+      [
+       0,
+       8
+      ],
+      [
+       1,
+       28
+      ]
+     ],
+     "ease": "out3"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       4
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.9
+     ],
+     [
+      0.5,
+      0.5
+     ],
+     [
+      1,
+      0.2
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.25,
+    "noise": "angular",
+    "scale": 12,
+    "amount": 1.2
+   }
+  },
+  {
+   "id": "sparks",
+   "kind": "particles",
+   "during": [
+    "flicker",
+    "impact"
+   ],
+   "ramp": "bolt",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "burst",
+    "count": [
+     12,
+     14
+    ],
+    "from": {
+     "area": "circle",
+     "r": 2,
+     "at": [
+      0,
+      -14
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     1.6,
+     2.8
+    ],
+    "angle": 270,
+    "spread": 150
+   },
+   "gravity": 0.2,
+   "drag": 0.03,
+   "ground": {
+    "y": -10,
+    "bounce": 0.35
+   },
+   "life": [
+    10,
+    15
+   ],
+   "stamp": {
+    "kind": "streak",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.95
+     ],
+     [
+      1,
+      0.3
+     ]
+    ],
+    "ease": "in"
+   }
+  },
+  {
+   "id": "afterglow",
+   "kind": "shape",
+   "during": [
+    "impact",
+    "linger"
+   ],
+   "ramp": "bolt",
+   "at": [
+    0,
+    -12
+   ],
+   "shape": {
+    "sdf": "circle",
+    "squash": 0.38,
+    "r": {
+     "keys": [
+      [
+       0,
+       11
+      ],
+      [
+       1,
+       8
+      ]
+     ],
+     "ease": "out"
+    }
+   },
+   "value_mode": "radial",
+   "edge": 0.1,
+   "value": {
+    "keys": [
+     [
+      0,
+      0.85
+     ],
+     [
+      0.4,
+      0.55
+     ],
+     [
+      1,
+      0.25
+     ]
+    ],
+    "ease": "out"
+   },
+   "break_up": {
+    "after": 0.15,
+    "noise": "worley",
+    "scale": 4,
+    "amount": 1.1,
+    "ease": "linear"
+   }
+  },
+  {
+   "id": "embers",
+   "kind": "particles",
+   "during": [
+    "impact",
+    "linger"
+   ],
+   "ramp": "bolt",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "burst",
+    "count": [
+     7,
+     9
+    ],
+    "from": {
+     "area": "rect",
+     "w": 16,
+     "h": 3,
+     "at": [
+      0,
+      -13
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.4,
+     0.8
+    ],
+    "angle": 270,
+    "spread": 50
+   },
+   "wind": [
+    0,
+    -0.04
+   ],
+   "wiggle": {
+    "amp": 0.6,
+    "freq": 0.15
+   },
+   "life": [
+    16,
+    26
+   ],
+   "stamp": {
+    "kind": "plus",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.4,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.95
+     ],
+     [
+      1,
+      0.3
+     ]
+    ],
+    "ease": "in"
+   }
+  },
+  {
+   "id": "wisp",
+   "kind": "particles",
+   "during": [
+    "linger"
+   ],
+   "ramp": "scorch",
+   "role": "smoke",
+   "emit": {
+    "mode": "burst",
+    "count": 3,
+    "from": {
+     "area": "rect",
+     "w": 8,
+     "h": 2,
+     "at": [
+      0,
+      -14
+     ]
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.15,
+     0.3
+    ],
+    "angle": 270,
+    "spread": 40
+   },
+   "wind": [
+    0,
+    -0.1
+   ],
+   "life": [
+    12,
+    17
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.35,
+       3.5
+      ],
+      [
+       1,
+       3.5
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "crescent",
+    "erode_angle": 135
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.9
+     ],
+     [
+      0.5,
+      0.55
+     ],
+     [
+      1,
+      0.0
+     ]
+    ],
+    "ease": "inout"
+   },
+   "min_cluster": 3
+  }
+ ],
+ "order": [
+  "dark",
+  "afterglow",
+  "wisp",
+  "pool",
+  "shock",
+  "embers",
+  "sparks",
+  "bolt",
+  "glare"
+ ],
+ "outputs": {
+  "emissive": [
+   "bolt",
+   "glare",
+   "pool"
+  ]
+ }
+}

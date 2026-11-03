@@ -1,0 +1,694 @@
+{
+ "name": "frost_nova",
+ "type": "explosion",
+ "canvas": "auto",
+ "anchor": "center",
+ "fps": 30,
+ "seed": 11,
+ "ramps": {
+  "ice": {
+   "colors": [
+    "#24306b",
+    "#3b5dc9",
+    "#41a6f6",
+    "#73eff7",
+    "#ffffff"
+   ]
+  },
+  "dark": {
+   "colors": [
+    "#161b38",
+    "#24306b"
+   ]
+  },
+  "mist": {
+   "colors": [
+    "#2f5296",
+    "#4f8ccc",
+    "#9ad8f0",
+    "#e8f8ff"
+   ]
+  }
+ },
+ "phases": [
+  {
+   "name": "contrast",
+   "ticks": 1
+  },
+  {
+   "name": "flash",
+   "ticks": 2,
+   "fast": true,
+   "events": [
+    "hit",
+    "shake:2"
+   ]
+  },
+  {
+   "name": "blast",
+   "ticks": 4,
+   "fast": true
+  },
+  {
+   "name": "freeze",
+   "ticks": 12
+  },
+  {
+   "name": "linger",
+   "ticks": 21
+  }
+ ],
+ "layers": [
+  {
+   "id": "dark",
+   "kind": "shape",
+   "during": [
+    "contrast"
+   ],
+   "ramp": "dark",
+   "value": 0.1,
+   "shape": {
+    "sdf": "circle",
+    "r": 7
+   }
+  },
+  {
+   "id": "flash",
+   "kind": "shape",
+   "during": [
+    "flash"
+   ],
+   "ramp": "ice",
+   "role": "flash",
+   "value": 1.0,
+   "shape": {
+    "sdf": "star",
+    "points": 6,
+    "r": [
+     4,
+     14
+    ],
+    "rotate": -90
+   }
+  },
+  {
+   "id": "core",
+   "kind": "shape",
+   "during": [
+    "blast",
+    "freeze"
+   ],
+   "ramp": "ice",
+   "role": "fire",
+   "shape": {
+    "sdf": "star",
+    "points": 6,
+    "r": {
+     "keys": [
+      [
+       0,
+       10
+      ],
+      [
+       0.35,
+       8
+      ],
+      [
+       1,
+       3
+      ]
+     ],
+     "ease": "out"
+    },
+    "inner": 0.45,
+    "rotate": -90
+   },
+   "value_mode": "radial",
+   "edge": 0.25,
+   "value": {
+    "keys": [
+     [
+      0,
+      1.2
+     ],
+     [
+      0.4,
+      0.95
+     ],
+     [
+      1,
+      0.6
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.5,
+    "noise": "angular"
+   }
+  },
+  {
+   "id": "shards",
+   "kind": "shape",
+   "during": [
+    "blast",
+    "freeze"
+   ],
+   "ramp": "ice",
+   "role": "fire",
+   "shape": {
+    "sdf": "rays",
+    "count": 6,
+    "rotate": -90,
+    "inner": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.3,
+       6
+      ],
+      [
+       1,
+       13
+      ]
+     ],
+     "ease": "out"
+    },
+    "length": {
+     "keys": [
+      [
+       0,
+       11
+      ],
+      [
+       0.3,
+       21
+      ],
+      [
+       1,
+       26
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       7
+      ],
+      [
+       1,
+       4
+      ]
+     ]
+    },
+    "taper": 0.95
+   },
+   "value_mode": "depth",
+   "value": {
+    "keys": [
+     [
+      0,
+      1.3
+     ],
+     [
+      0.4,
+      1.0
+     ],
+     [
+      1,
+      0.55
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.55,
+    "noise": "angular"
+   }
+  },
+  {
+   "id": "shards2",
+   "kind": "shape",
+   "during": [
+    "blast",
+    "freeze"
+   ],
+   "ramp": "ice",
+   "role": "fire",
+   "shape": {
+    "sdf": "rays",
+    "count": 6,
+    "rotate": -60,
+    "inner": {
+     "keys": [
+      [
+       0,
+       2
+      ],
+      [
+       0.3,
+       4
+      ],
+      [
+       1,
+       9
+      ]
+     ],
+     "ease": "out"
+    },
+    "length": {
+     "keys": [
+      [
+       0,
+       7
+      ],
+      [
+       0.3,
+       14
+      ],
+      [
+       1,
+       17
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       5
+      ],
+      [
+       1,
+       3
+      ]
+     ]
+    },
+    "taper": 0.95
+   },
+   "value_mode": "depth",
+   "value": {
+    "keys": [
+     [
+      0,
+      1.05
+     ],
+     [
+      0.4,
+      0.8
+     ],
+     [
+      1,
+      0.4
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.45,
+    "noise": "angular"
+   }
+  },
+  {
+   "id": "ring",
+   "kind": "shape",
+   "during": [
+    "blast",
+    "freeze"
+   ],
+   "ramp": "ice",
+   "role": "fire",
+   "shape": {
+    "sdf": "ring",
+    "r": {
+     "keys": [
+      [
+       0,
+       8
+      ],
+      [
+       0.25,
+       24
+      ],
+      [
+       1,
+       24
+      ]
+     ],
+     "ease": "out"
+    },
+    "width": {
+     "keys": [
+      [
+       0,
+       2.5
+      ],
+      [
+       0.25,
+       1.5
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value": {
+    "keys": [
+     [
+      0,
+      0.5
+     ],
+     [
+      0.25,
+      0.3
+     ],
+     [
+      1,
+      0.1
+     ]
+    ]
+   },
+   "break_up": {
+    "after": 0.15,
+    "noise": "angular",
+    "amount": 1.6
+   }
+  },
+  {
+   "id": "glints",
+   "kind": "particles",
+   "during": [
+    "blast",
+    "freeze",
+    "linger"
+   ],
+   "ramp": "ice",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "burst",
+    "count": [
+     10,
+     12
+    ],
+    "from": {
+     "area": "circle",
+     "r": 5
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.9,
+     1.8
+    ],
+    "angle": "out"
+   },
+   "drag": 0.09,
+   "life": [
+    14,
+    26
+   ],
+   "stamp": {
+    "kind": "star",
+    "size": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       0.25,
+       3
+      ],
+      [
+       0.5,
+       5
+      ],
+      [
+       0.75,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      1.0
+     ],
+     [
+      1,
+      0.55
+     ]
+    ]
+   }
+  },
+  {
+   "id": "drift",
+   "kind": "particles",
+   "during": [
+    "freeze",
+    "linger"
+   ],
+   "ramp": "ice",
+   "tag": "sparkle",
+   "emit": {
+    "mode": "burst",
+    "at_u": 0.05,
+    "count": [
+     13,
+     15
+    ],
+    "from": {
+     "area": "circle",
+     "r": 11
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.3,
+     0.75
+    ],
+    "angle": "out"
+   },
+   "gravity": 0.025,
+   "drag": 0.05,
+   "life": [
+    16,
+    27
+   ],
+   "stamp": {
+    "kind": "star",
+    "size": {
+     "keys": [
+      [
+       0,
+       1
+      ],
+      [
+       0.3,
+       3
+      ],
+      [
+       0.55,
+       5
+      ],
+      [
+       0.8,
+       3
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.95
+     ],
+     [
+      1,
+      0.5
+     ]
+    ]
+   }
+  },
+  {
+   "id": "fragments",
+   "kind": "particles",
+   "during": [
+    "freeze",
+    "linger"
+   ],
+   "ramp": "ice",
+   "tag": "debris",
+   "emit": {
+    "mode": "burst",
+    "at_u": 0.12,
+    "count": [
+     12,
+     14
+    ],
+    "from": {
+     "area": "ring",
+     "r": 14
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.4,
+     0.9
+    ],
+    "angle": "out"
+   },
+   "gravity": 0.06,
+   "drag": 0.05,
+   "life": [
+    10,
+    18
+   ],
+   "stamp": {
+    "kind": "diamond",
+    "size": {
+     "keys": [
+      [
+       0,
+       3
+      ],
+      [
+       0.6,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ]
+    }
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.75
+     ],
+     [
+      1,
+      0.3
+     ]
+    ]
+   }
+  },
+  {
+   "id": "mist",
+   "kind": "particles",
+   "during": [
+    "freeze",
+    "linger"
+   ],
+   "ramp": "mist",
+   "role": "smoke",
+   "emit": {
+    "mode": "burst",
+    "count": 5,
+    "from": {
+     "area": "circle",
+     "r": 5
+    }
+   },
+   "velocity": {
+    "speed": [
+     0.35,
+     0.6
+    ],
+    "angle": "out"
+   },
+   "drag": 0.04,
+   "wind": [
+    0,
+    -0.05
+   ],
+   "life": [
+    20,
+    29
+   ],
+   "stamp": {
+    "kind": "puff",
+    "r": {
+     "keys": [
+      [
+       0,
+       1.5
+      ],
+      [
+       0.35,
+       3.5
+      ],
+      [
+       1,
+       3.5
+      ]
+     ],
+     "ease": "out"
+    },
+    "erode": "crescent",
+    "erode_angle": 120
+   },
+   "value_over_life": {
+    "keys": [
+     [
+      0,
+      0.99
+     ],
+     [
+      0.4,
+      0.7
+     ],
+     [
+      0.8,
+      0.3
+     ],
+     [
+      1,
+      0.0
+     ]
+    ],
+    "ease": "inout"
+   },
+   "min_cluster": 4
+  }
+ ],
+ "order": [
+  "mist",
+  "ring",
+  "shards2",
+  "shards",
+  "fragments",
+  "core",
+  "glints",
+  "drift",
+  "flash",
+  "dark"
+ ],
+ "outputs": {
+  "add": [],
+  "emissive": [
+   "core",
+   "flash",
+   "shards"
+  ]
+ }
+}
